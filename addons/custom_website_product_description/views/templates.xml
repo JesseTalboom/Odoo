@@ -1,0 +1,10 @@
+<odoo>
+    <data>
+        <template id="product_custom" inherit_id="website_sale.product" name="Product custom">
+          <xpath expr="//p[@class='text-muted my-2']" position="replace">
+              <p t-field="product.website_description" class="text-muted my-2"/>
+          </xpath>
+          <xpath expr="//p[@id='product_full_description']" position="replace"/>
+        </template>
+    </data>
+</odoo>
