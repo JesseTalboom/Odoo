@@ -1,60 +1,13 @@
 <odoo>
   <data>
-    <!-- explicit list view definition -->
-<!--
-    <record model="ir.ui.view" id="jesse.list">
-      <field name="name">jesse list</field>
-      <field name="model">jesse.jesse</field>
+    <record model="ir.ui.view" id="view_product_template_inherit">
+      <field name="model">product.template</field>
+      <field name="inherit_id" ref="product.product_template_only_form_view"/>
       <field name="arch" type="xml">
-        <tree>
-          <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
-        </tree>
+          <field name="website_sequence" position="after">
+            <field name="website_description"/>
+          </field>
       </field>
     </record>
--->
-
-    <!-- actions opening views on models -->
-<!--
-    <record model="ir.actions.act_window" id="jesse.action_window">
-      <field name="name">jesse window</field>
-      <field name="res_model">jesse.jesse</field>
-      <field name="view_mode">tree,form</field>
-    </record>
--->
-
-    <!-- server action to the one above -->
-<!--
-    <record model="ir.actions.server" id="jesse.action_server">
-      <field name="name">jesse server</field>
-      <field name="model_id" ref="model_jesse_jesse"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "tree,form",
-          "res_model": model._name,
-        }
-      </field>
-    </record>
--->
-
-    <!-- Top menu item -->
-<!--
-    <menuitem name="jesse" id="jesse.menu_root"/>
--->
-    <!-- menu categories -->
-<!--
-    <menuitem name="Menu 1" id="jesse.menu_1" parent="jesse.menu_root"/>
-    <menuitem name="Menu 2" id="jesse.menu_2" parent="jesse.menu_root"/>
--->
-    <!-- actions -->
-<!--
-    <menuitem name="List" id="jesse.menu_1_list" parent="jesse.menu_1"
-              action="jesse.action_window"/>
-    <menuitem name="Server to list" id="jesse" parent="jesse.menu_2"
-              action="jesse.action_server"/>
--->
   </data>
 </odoo>

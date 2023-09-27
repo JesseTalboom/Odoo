@@ -4,7 +4,7 @@
           <xpath expr="//p[@class='text-muted my-2']" position="replace">
               <p t-field="product.website_description" class="text-muted my-2"/>
           </xpath>
-          <xpath expr="//p[@id='product_full_description']" position="replace"/>
+          <xpath expr="//div[@id='product_full_description']" position="replace"/>
         </template>
     </data>
 </odoo>
