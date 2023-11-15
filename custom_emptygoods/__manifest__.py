@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "custom_website_product_description",
+    'name': "custom_emptygoods",
 
     'summary': """
         Short (1 phrase/line) summary of the module's purpose, used as
         subtitle on modules listing or apps.openerp.com""",
 
     'description': """
-        Webshop changes
+        Long description of module's purpose
     """,
 
     'author': "Corbital",
@@ -20,12 +20,10 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['website', 'website_sale'],
+    'depends': ['product'],
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
         'views/views.xml',
-        'views/templates.xml',
     ],
 }
