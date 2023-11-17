@@ -10,10 +10,10 @@ class product_template_inherit(models.Model):
         ('emptygoods', 'Empty goods'),
     ], ondelete={'emptygoods': 'set service'})
 
-    fullgood_product_id = fields.Many2one(
-        'product.template', 'Full good', check_company=True,
+    emptygoods_product_id = fields.Many2one(
+        'product.template', 'Empty goods', check_company=True,
         index=True, ondelete='set null',
-        domain=[('detailed_type', '=', 'product')])
+        domain=[('detailed_type', '=', 'emptygoods')])
 
     def _detailed_type_mapping(self):
         type_mapping = super()._detailed_type_mapping()
