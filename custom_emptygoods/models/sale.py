@@ -15,7 +15,7 @@ class sale_order_inherit(models.Model):
         self._remove_unused_emptygoods_orderlines()
 
     def _reset_emptygoods_orderlines(self):
-        empty_goods_order_line = self.order_line.filtered(lambda x: x.product_id.product_tmpl_id.detailed_type == 'emptygoods' and x.product_uom_qty >= 0)
+        empty_goods_order_line = self.order_line.filtered(lambda x: x.product_id.product_tmpl_id.emptygoods and x.product_uom_qty >= 0)
         for line in empty_goods_order_line:
             line.product_uom_qty = 0
 
@@ -44,6 +44,6 @@ class sale_order_inherit(models.Model):
                         empty_goods_order_line.product_uom_qty += line.product_uom_qty
 
     def _remove_unused_emptygoods_orderlines(self):
-        unused_empty_goods_order_line = self.order_line.filtered(lambda x: x.product_id.product_tmpl_id.detailed_type == 'emptygoods' and x.product_uom_qty == 0)
+        unused_empty_goods_order_line = self.order_line.filtered(lambda x: x.product_id.product_tmpl_id.emptygoods and x.product_uom_qty == 0)
         for line in unused_empty_goods_order_line:
             line.unlink()

@@ -32,6 +32,9 @@ msgstr ""
 msgid "Empty goods"
 msgstr "Leeggoed"
 
+msgid "Is empty goods"
+msgstr "Is leeggoed"
+
 #. module: custom_emptygoods
 #: model:ir.model,name:custom_emptygoods.model_product_template
 msgid "Product"

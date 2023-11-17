@@ -5,7 +5,9 @@
       <field name="inherit_id" ref="product.product_template_only_form_view"/>
       <field name="arch" type="xml">
           <field name="detailed_type" position="after">
-            <field name="emptygoods_product_id" attrs="{'invisible': [('detailed_type', '!=', 'product')]}"/>
+              <field name="emptygoods"/>
+<!--             <field name="emptygoods_product_id" invisible="emptygoods"/>-->
+              <field name="emptygoods_product_id"/>
           </field>
       </field>
     </record>
