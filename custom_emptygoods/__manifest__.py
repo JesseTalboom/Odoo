@@ -20,11 +20,17 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['product','purchase','sale'],
+    'depends': ['product','purchase','sale','point_of_sale'],
 
     # always loaded
     'data': [
         'views/product.xml',
         # 'views/purchase2.xml',
     ],
+    'assets': {
+        'point_of_sale.assets': [
+            'custom_emptygoods/static/src/js/**/*',
+            'custom_emptygoods/static/src/xml/**/*',
+        ],
+    },
 }

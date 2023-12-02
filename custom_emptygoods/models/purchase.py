@@ -22,7 +22,8 @@ class purchase_order_inherit(models.Model):
         for line in self.order_line:
             if line.product_id:
                 if line.product_id.emptygoods_product_id:
-                    empty_goods_product_product = line.product_id.emptygoods_product_id.product_variant_ids[0]
+                    empty_goods_product_template = line.product_id.emptygoods_product_id.product_tmpl_id
+                    empty_goods_product_product = line.product_id.emptygoods_product_id
                     empty_goods_order_line = self.order_line.filtered(lambda x: x.product_id == empty_goods_product_product and x.product_qty >= 0)
 
                     # Create
@@ -33,9 +34,9 @@ class purchase_order_inherit(models.Model):
                                 'product_qty': line.product_qty,
                                 'product_uom': empty_goods_product_product.uom_id.id,
                                 'product_id': empty_goods_product_product.id,
-                                'name': line.product_id.emptygoods_product_id.name,
-                                'price_unit': line.product_id.emptygoods_product_id.list_price,
-                                'taxes_id': [(6, 0, line.product_id.emptygoods_product_id.taxes_id.ids)]
+                                'name': empty_goods_product_template.name,
+                                'price_unit': empty_goods_product_template.list_price,
+                                'taxes_id': [(6, 0, empty_goods_product_template.taxes_id.ids)]
                             }
                             self.env['purchase.order.line'].create(values)
                     # Edit
