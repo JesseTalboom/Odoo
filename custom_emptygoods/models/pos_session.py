@@ -7,4 +7,5 @@ class pos_session_inherit(models.Model):
     def _loader_params_product_product(self):
         result = super()._loader_params_product_product()
         result['search_params']['fields'].append('emptygoods_product_id')
+        result['search_params']['fields'].append('emptygoods')
         return result

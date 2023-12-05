@@ -3,7 +3,7 @@
 
     <t t-name="EmptyGoodsButton" owl="1">
         <span class="control-button js_emptygoods">
-            <i class="fa fa-tag"></i>
+            <i class="fa fa-calculator"></i>
             <span> </span>
             <span>Leeggoed</span>
         </span>
