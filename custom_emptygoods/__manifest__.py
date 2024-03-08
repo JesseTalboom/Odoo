@@ -25,7 +25,8 @@
     # always loaded
     'data': [
         'views/product.xml',
-        # 'views/purchase2.xml',
+        'views/sale.xml',
+        'views/purchase.xml',
     ],
     'assets': {
         'point_of_sale.assets': [
