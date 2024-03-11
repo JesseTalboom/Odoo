@@ -10,7 +10,7 @@
             <field name="amount_emptygoods_total"/>
           </xpath>
          <xpath expr="//field[@name='order_line']/tree/field[@name='taxes_id']" position="after">
-            <field name="emptygoods_line_str"/>
+            <field name="fullgoods_line_str"/>
           </xpath>
           <button name="button_cancel" position="after">
                 <button name="action_sort" string="Sort" type="object" class="btn-secondary"

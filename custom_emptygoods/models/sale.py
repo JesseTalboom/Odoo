@@ -13,15 +13,15 @@ class sale_order_line_inherit(models.Model):
         'sale.order.line', 'Full goods line', check_company=True,
         index=True, ondelete='cascade')
 
-    emptygoods_line_str = fields.Text('Empty goods line', compute='_compute_emptygoods_line')
+    fullgoods_line_str = fields.Text('Full goods line', compute='_compute_fullgoods_line')
 
-    def _compute_emptygoods_line(self):
+    def _compute_fullgoods_line(self):
         for line in self:
             res = ""
-            if line.emptygoods_line_id:
-                res = line.emptygoods_line_id.product_id.name
+            if line.fullgoods_line_id:
+                res = line.fullgoods_line_id.product_id.name
 
-            line.emptygoods_line_str = res
+            line.fullgoods_line_str = res
 
 class sale_order_inherit(models.Model):
     _inherit = 'sale.order'
