@@ -12,8 +12,9 @@ odoo.define('custom_emptygoods.Order', function(require) {
              const lines = this.get_orderlines();
              const productExists = lines.filter(x => x.product.id == product.id)[0] ?? null;
 
-             // If an emptygoods product is added, this may never be merged
+             options = options || {};
 
+             // If an emptygoods product is added, this may never be merged
              if (product.emptygoods){
                  options.merge = false;
              }

@@ -3,9 +3,9 @@
 
     <t t-name="EmptyGoodsButton" owl="1">
         <span class="control-button js_emptygoods">
-            <i class="fa fa-calculator"></i>
+            <i class="fa fa-arrow-left"></i>
             <span> </span>
-            <span>Leeggoed</span>
+            <span>Leeggoed retour</span>
         </span>
     </t>
 
