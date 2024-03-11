@@ -5,8 +5,8 @@
       <field name="inherit_id" ref="sale.view_order_form"/>
       <field name="arch" type="xml">
           <xpath expr="//field[@name='note']" position="after">
-            <field name="amount_emptygoods_min"/>
             <field name="amount_emptygoods_plus"/>
+            <field name="amount_emptygoods_min"/>
             <field name="amount_emptygoods_total"/>
           </xpath>
          <xpath expr="//field[@name='order_line']/tree/field[@name='tax_id']" position="after">
@@ -17,14 +17,11 @@
 <!--                <attribute name="domain">[('product_id', '!=', False),('product_id.emptygoods', '=', True)]</attribute>-->
 <!--          </xpath>-->
           <button name="action_cancel" position="after">
+                <button name="create_emptygoods_return" string="Emptygoods return" type="object" class="btn-secondary"
+                        attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>
                 <button name="action_sort" string="Sort" type="object" class="btn-secondary"
                         attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>
-            </button>
-<!--          TODO COMPLETE ME -->
-<!--          <button name="action_quotation_send" position="after">-->
-<!--                <button name="create_emptygoods_return" string="Emptygoods return" type="object" class="btn-primary"-->
-<!--                        attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>-->
-<!--            </button>-->
+          </button>
       </field>
     </record>
   </data>

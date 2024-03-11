@@ -15,6 +15,8 @@ class purchase_order_line_inherit(models.Model):
 
     fullgoods_line_str = fields.Text('Full goods line', compute='_compute_fullgoods_line')
 
+    is_emptygoods_return = fields.Boolean('Empty goods return')
+
     def _compute_fullgoods_line(self):
         for line in self:
             res = ""
@@ -82,12 +84,32 @@ class purchase_order_inherit(models.Model):
                             line.emptygoods_line_id = so_emptygoods_line.id
 
     def action_sort(self):
-        seq = 0
-        eg_seq = 999
+        seq_1 = 0
+        seq_2 = 999
+        seq_3 = 9999
         for line in self.order_line:
-            if line.emptygoods_line_id:
-                line.sequence = seq
-                seq += 1
+            if line.product_id and not line.product_id.emptygoods:
+                line.sequence = seq_1
+                seq_1 += 1
             else:
-                line.sequence = eg_seq
-                eg_seq += 1
+                if line.fullgoods_line_id:
+                    line.sequence = seq_2
+                    seq_2 += 1
+                else:
+                    line.sequence = seq_3
+                    seq_2 += 3
+
+    def create_emptygoods_return(self):
+        for line in self.order_line.filtered(lambda x: x.product_id.emptygoods and x.fullgoods_line_id):
+            values = {
+                'order_id': self.id,
+                'product_qty': -line.product_qty,
+                'product_uom': line.product_uom.id,
+                'product_id': line.product_id.id,
+                'name': line.name,
+                'price_unit': line.price_unit,
+                'taxes_id': [(6, 0, line.taxes_id.ids)],
+                'is_emptygoods_return': True
+            }
+
+            emptygoods_return_line = self.env['purchase.order.line'].create(values)

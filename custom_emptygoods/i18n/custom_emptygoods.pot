@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-15 09:24+0000\n"
-"PO-Revision-Date: 2023-11-15 09:24+0000\n"
+"POT-Creation-Date: 2024-03-11 13:58+0000\n"
+"PO-Revision-Date: 2024-03-11 13:58+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,17 +16,65 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: custom_emptygoods
-#: model:ir.model.fields,help:custom_emptygoods.field_product_product__detailed_type
-#: model:ir.model.fields,help:custom_emptygoods.field_product_template__detailed_type
-msgid ""
-"A storable product is a product for which you manage stock. The Inventory app has to be installed.\n"
-"A consumable product is a product for which stock is not managed.\n"
-"A service is a non-material product you provide."
+#: model:ir.model.fields,field_description:custom_emptygoods.field_product_product__emptygoods_product_id
+#: model:ir.model.fields,field_description:custom_emptygoods.field_product_template__emptygoods_product_id
+msgid "Empty goods"
 msgstr ""
 
 #. module: custom_emptygoods
-#: model:ir.model.fields.selection,name:custom_emptygoods.selection__product_template__detailed_type__emptygoods
-msgid "Empty goods"
+#: model:ir.model.fields,field_description:custom_emptygoods.field_purchase_order__amount_emptygoods_plus
+#: model:ir.model.fields,field_description:custom_emptygoods.field_sale_order__amount_emptygoods_plus
+msgid "Empty goods (+)"
+msgstr ""
+
+#. module: custom_emptygoods
+#: model:ir.model.fields,field_description:custom_emptygoods.field_purchase_order__amount_emptygoods_min
+#: model:ir.model.fields,field_description:custom_emptygoods.field_sale_order__amount_emptygoods_min
+msgid "Empty goods (-)"
+msgstr ""
+
+#. module: custom_emptygoods
+#: model:ir.model.fields,field_description:custom_emptygoods.field_purchase_order_line__emptygoods_line_id
+#: model:ir.model.fields,field_description:custom_emptygoods.field_sale_order_line__emptygoods_line_id
+msgid "Empty goods line"
+msgstr ""
+
+#. module: custom_emptygoods
+#: model:ir.model.fields,field_description:custom_emptygoods.field_purchase_order_line__is_emptygoods_return
+#: model:ir.model.fields,field_description:custom_emptygoods.field_sale_order_line__is_emptygoods_return
+msgid "Empty goods return"
+msgstr ""
+
+#. module: custom_emptygoods
+#: model_terms:ir.ui.view,arch_db:custom_emptygoods.view_purchase_order_inherit
+#: model_terms:ir.ui.view,arch_db:custom_emptygoods.view_sale_order_inherit
+msgid "Emptygoods return"
+msgstr ""
+
+#. module: custom_emptygoods
+#: model:ir.model.fields,field_description:custom_emptygoods.field_purchase_order_line__fullgoods_line_id
+#: model:ir.model.fields,field_description:custom_emptygoods.field_purchase_order_line__fullgoods_line_str
+#: model:ir.model.fields,field_description:custom_emptygoods.field_sale_order_line__fullgoods_line_id
+#: model:ir.model.fields,field_description:custom_emptygoods.field_sale_order_line__fullgoods_line_str
+msgid "Full goods line"
+msgstr ""
+
+#. module: custom_emptygoods
+#: model:ir.model.fields,field_description:custom_emptygoods.field_product_product__emptygoods
+#: model:ir.model.fields,field_description:custom_emptygoods.field_product_template__emptygoods
+msgid "Is empty goods"
+msgstr ""
+
+#. module: custom_emptygoods
+#. odoo-javascript
+#: code:addons/custom_emptygoods/static/src/xml/EmptyGoodsButton.xml:0
+#, python-format
+msgid "Leeggoed retour"
+msgstr ""
+
+#. module: custom_emptygoods
+#: model:ir.model,name:custom_emptygoods.model_pos_session
+msgid "Point of Sale Session"
 msgstr ""
 
 #. module: custom_emptygoods
@@ -35,7 +83,33 @@ msgid "Product"
 msgstr ""
 
 #. module: custom_emptygoods
-#: model:ir.model.fields,field_description:custom_emptygoods.field_product_product__detailed_type
-#: model:ir.model.fields,field_description:custom_emptygoods.field_product_template__detailed_type
-msgid "Product Type"
+#: model:ir.model,name:custom_emptygoods.model_purchase_order
+msgid "Purchase Order"
+msgstr ""
+
+#. module: custom_emptygoods
+#: model:ir.model,name:custom_emptygoods.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr ""
+
+#. module: custom_emptygoods
+#: model:ir.model,name:custom_emptygoods.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: custom_emptygoods
+#: model:ir.model,name:custom_emptygoods.model_sale_order_line
+msgid "Sales Order Line"
+msgstr ""
+
+#. module: custom_emptygoods
+#: model_terms:ir.ui.view,arch_db:custom_emptygoods.view_purchase_order_inherit
+#: model_terms:ir.ui.view,arch_db:custom_emptygoods.view_sale_order_inherit
+msgid "Sort"
+msgstr ""
+
+#. module: custom_emptygoods
+#: model:ir.model.fields,field_description:custom_emptygoods.field_purchase_order__amount_emptygoods_total
+#: model:ir.model.fields,field_description:custom_emptygoods.field_sale_order__amount_emptygoods_total
+msgid "Total empty goods"
 msgstr ""

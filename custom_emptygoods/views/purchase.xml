@@ -5,14 +5,16 @@
       <field name="inherit_id" ref="purchase.purchase_order_form"/>
       <field name="arch" type="xml">
           <xpath expr="//field[@name='notes']" position="after">
-            <field name="amount_emptygoods_min"/>
             <field name="amount_emptygoods_plus"/>
+            <field name="amount_emptygoods_min"/>
             <field name="amount_emptygoods_total"/>
           </xpath>
          <xpath expr="//field[@name='order_line']/tree/field[@name='taxes_id']" position="after">
             <field name="fullgoods_line_str"/>
           </xpath>
           <button name="button_cancel" position="after">
+                <button name="create_emptygoods_return" string="Emptygoods return" type="object" class="btn-secondary"
+                        attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>
                 <button name="action_sort" string="Sort" type="object" class="btn-secondary"
                         attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>
           </button>
