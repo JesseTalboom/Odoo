@@ -8,14 +8,18 @@ odoo.define('custom_emptygoods.Orderline', function(require) {
 
          // Update quantity of empty goods line
          set_quantity(quantity, keep_price) {
+             const res = super.set_quantity(quantity, keep_price);
              const oldQuantity = this.quantity ?? 0;
              // Check if oldQuantity is not 0, because if 0 then this method is called from constructor and empty good may not be added since this is already added from Order.add_product.
              if (oldQuantity > 0)
              {
-                 // If fullgoods line is edited, update emptygoods line aswell
-                 if (this.emptygoods_line_id){
-                     const emptygoods_line = this.order.get_orderline(this.emptygoods_line_id);
-                     emptygoods_line.set_quantity(quantity);
+                 // If fullgoods line is edited, update emptygoods line aswell and visa versa
+                 const emptygood_fullgood_link_line_id = this.emptygoods_line_id ?? this.fullgoods_line_id;
+                 if (emptygood_fullgood_link_line_id){
+                     const emptygood_fullgood_link_line = this.order.get_orderline(emptygood_fullgood_link_line_id);
+                     if (emptygood_fullgood_link_line && emptygood_fullgood_link_line.quantity != quantity){
+                         emptygood_fullgood_link_line.set_quantity(quantity);
+                     }
                  }
 
                  // const quantityDiff = quantity - oldQuantity;
@@ -34,7 +38,7 @@ odoo.define('custom_emptygoods.Orderline', function(require) {
                  // }
              }
 
-             return super.set_quantity(quantity, keep_price);
+             return res;
          }
 
          // Inherit merge and call super set_quantity instead of inherit method. Since empty good may not be added since this is already added from order.add_product
