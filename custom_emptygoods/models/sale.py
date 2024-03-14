@@ -31,6 +31,7 @@ class sale_order_inherit(models.Model):
     amount_emptygoods_min = fields.Monetary(string='Empty goods (-)', store=True, readonly=True, compute='_amount_emptygoods')
     amount_emptygoods_plus = fields.Monetary(string='Empty goods (+)', store=True, readonly=True, compute='_amount_emptygoods')
     amount_emptygoods_total = fields.Monetary(string='Total empty goods', store=True, readonly=True, compute='_amount_emptygoods')
+    amount_emptygoods_price_total = fields.Monetary(string='Total emptygoods excl.', store=True, readonly=True, compute='_amount_emptygoods')
 
     @api.depends('order_line.price_total')
     def _amount_emptygoods(self):
@@ -45,6 +46,8 @@ class sale_order_inherit(models.Model):
             order.amount_emptygoods_min = amount_emptygoods_min
             order.amount_emptygoods_plus = amount_emptygoods_plus
             order.amount_emptygoods_total = order.amount_emptygoods_min + order.amount_emptygoods_plus
+
+            order.amount_emptygoods_price_total = sum(order.order_line.mapped('price_subtotal')) - order.amount_emptygoods_total
 
     def _compute_amounts(self):
         res = super(sale_order_inherit, self)._compute_amounts()

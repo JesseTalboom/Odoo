@@ -8,6 +8,7 @@
             <field name="amount_emptygoods_plus"/>
             <field name="amount_emptygoods_min"/>
             <field name="amount_emptygoods_total"/>
+            <field name="amount_emptygoods_price_total"/>
           </xpath>
          <xpath expr="//field[@name='order_line']/tree/field[@name='tax_id']" position="after">
             <field name="fullgoods_line_str"/>

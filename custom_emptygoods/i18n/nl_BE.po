@@ -113,3 +113,9 @@ msgstr "Sorteer"
 #: model:ir.model.fields,field_description:custom_emptygoods.field_sale_order__amount_emptygoods_total
 msgid "Total empty goods"
 msgstr "Totaal leeggoed"
+
+#. module: custom_emptygoods
+#: model:ir.model.fields,field_description:custom_emptygoods.field_purchase_order__amount_emptygoods_price_total
+#: model:ir.model.fields,field_description:custom_emptygoods.field_sale_order__amount_emptygoods_price_total
+msgid "Total emptygoods excl."
+msgstr "Totaalprijs excl. leeggoed"
