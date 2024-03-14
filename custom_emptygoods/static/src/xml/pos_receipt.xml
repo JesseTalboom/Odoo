@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="OrderLinesReceipt" t-inherit="point_of_sale.OrderLinesReceipt" t-inherit-mode="extension" owl="1">
+<!--       <xpath expr="//t[@t-foreach='receipt.orderlines']" position="inside">-->
+<!--           <p>TESTJEEE: </p>-->
+<!--           <t t-esc="line.emptygoods_line_id"/>-->
+<!--       </xpath>-->
+    </t>
+
+    <t t-name="OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('before-footer')]" position="inside">
+           <div style="font-size: 75%;">
+               <div>
+                   Leeggoed (+)
+                   <span t-esc="env.pos.format_currency(receipt.amount_emptygoods_plus)" class="pos-receipt-right-align"/>
+               </div>
+               <div>
+                   Leeggoed (-)
+                   <span t-esc="env.pos.format_currency(receipt.amount_emptygoods_min)" class="pos-receipt-right-align"/>
+               </div>
+               <div>
+                   Totaal leeggoed
+                   <span t-esc="env.pos.format_currency(receipt.amount_emptygoods_total)" class="pos-receipt-right-align"/>
+               </div>
+           </div>
+       </xpath>
+    </t>
+</templates>
