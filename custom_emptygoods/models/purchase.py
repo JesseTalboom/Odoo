@@ -61,14 +61,14 @@ class purchase_order_inherit(models.Model):
                 if line.product_id.emptygoods_product_id:
                     # if empty goods link exists, update
                     if line.emptygoods_line_id:
-                        line.emptygoods_line_id.product_uom_qty = line.product_uom_qty
+                        line.emptygoods_line_id.product_qty = line.product_qty
 
                     # if not, create
                     else:
                         empty_goods_product_template = line.product_id.emptygoods_product_id.product_tmpl_id
                         empty_goods_product_product = line.product_id.emptygoods_product_id
 
-                        if line.product_uom_qty > 0:
+                        if line.product_qty > 0:
                             values = {
                                 'order_id': self.id,
                                 'product_qty': line.product_qty,
