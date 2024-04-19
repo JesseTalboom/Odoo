@@ -100,16 +100,17 @@ class sale_order_inherit(models.Model):
                     seq_2 += 3
 
     def create_emptygoods_return(self):
-        for line in self.order_line.filtered(lambda x: x.product_id.emptygoods and x.fullgoods_line_id):
-            values = {
-                'order_id': self.id,
-                'product_uom_qty': -line.product_uom_qty,
-                'product_uom': line.product_uom.id,
-                'product_id': line.product_id.id,
-                'name': line.name,
-                'price_unit': line.price_unit,
-                'tax_id': [(6, 0, line.tax_id.ids)],
-                'is_emptygoods_return': True
-            }
+        if self.id:
+            for line in self.order_line.filtered(lambda x: x.product_id.emptygoods and x.fullgoods_line_id):
+                values = {
+                    'order_id': self.id,
+                    'product_uom_qty': -line.product_uom_qty,
+                    'product_uom': line.product_uom.id,
+                    'product_id': line.product_id.id,
+                    'name': line.name,
+                    'price_unit': line.price_unit,
+                    'tax_id': [(6, 0, line.tax_id.ids)],
+                    'is_emptygoods_return': True
+                }
 
-            emptygoods_return_line = self.env['sale.order.line'].create(values)
+                emptygoods_return_line = self.env['sale.order.line'].create(values)
