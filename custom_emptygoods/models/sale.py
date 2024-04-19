@@ -65,23 +65,24 @@ class sale_order_inherit(models.Model):
 
                     # if not, create
                     else:
-                        empty_goods_product_template = line.product_id.emptygoods_product_id.product_tmpl_id
-                        empty_goods_product_product = line.product_id.emptygoods_product_id
+                        if self.id:
+                            empty_goods_product_template = line.product_id.emptygoods_product_id.product_tmpl_id
+                            empty_goods_product_product = line.product_id.emptygoods_product_id
 
-                        if line.product_uom_qty > 0:
-                            values = {
-                                    'order_id': self.id,
-                                    'product_uom_qty': line.product_uom_qty,
-                                    'product_uom': empty_goods_product_product.uom_id.id,
-                                    'product_id': empty_goods_product_product.id,
-                                    'name': empty_goods_product_template.name,
-                                    'price_unit': empty_goods_product_template.list_price,
-                                    'tax_id': [(6, 0, empty_goods_product_template.taxes_id.ids)],
-                                    'fullgoods_line_id': line.id
-                            }
-                            so_emptygoods_line = self.env['sale.order.line'].create(values)
+                            if line.product_uom_qty > 0:
+                                values = {
+                                        'order_id': self.id,
+                                        'product_uom_qty': line.product_uom_qty,
+                                        'product_uom': empty_goods_product_product.uom_id.id,
+                                        'product_id': empty_goods_product_product.id,
+                                        'name': empty_goods_product_template.name,
+                                        'price_unit': empty_goods_product_template.list_price,
+                                        'tax_id': [(6, 0, empty_goods_product_template.taxes_id.ids)],
+                                        'fullgoods_line_id': line.id
+                                }
+                                so_emptygoods_line = self.env['sale.order.line'].create(values)
 
-                            line.emptygoods_line_id = so_emptygoods_line.id
+                                line.emptygoods_line_id = so_emptygoods_line.id
 
     def action_sort(self):
         seq_1 = 0
