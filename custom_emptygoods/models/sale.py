@@ -141,3 +141,7 @@ class sale_order_inherit(models.Model):
 
                 emptygoods_return_line = self.env['sale.order.line'].create(values)
 
+    def _get_order_lines_to_report(self):
+        order_lines = super(sale_order_inherit, self)._get_order_lines_to_report()
+       # return order_lines.filtered(lambda l: l.fullgoods_line_id is None)
+        return self.order_line_without_emptygoods

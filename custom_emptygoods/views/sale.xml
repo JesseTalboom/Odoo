@@ -15,8 +15,8 @@
           </xpath>
           <xpath expr="//page[@name='order_lines']" position="after">
                 <page string="Order Lines (filtered)" name="order_lines_filtered">
-                    <field name="order_line_without_emptygoods" context="{'default_order_id': active_id}" readonly="1">
-                        <tree>
+                    <field name="order_line_without_emptygoods" context="{'default_order_id': active_id}" readonly="1" >
+                        <tree attrs="{'invisible': 1}">
                             <field name="product_id" />
                             <field name="name" />
                             <field name="product_uom_qty" />

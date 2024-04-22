@@ -26,6 +26,7 @@
     'data': [
         'views/product.xml',
         'views/sale.xml',
+        'views/sale_portal_templates.xml',
         'views/purchase.xml',
     ],
     'assets': {
