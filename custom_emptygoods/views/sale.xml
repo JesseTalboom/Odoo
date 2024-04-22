@@ -29,7 +29,7 @@
                 </page>
           </xpath>
           <button name="action_cancel" position="after">
-                <button name="create_emptygoods_return" string="Emptygoods return" type="object" class="btn-secondary"
+                <button name="create_emptygoods_return" string="Emptygoods return 2" type="object" class="btn-secondary"
                         attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>
                 <button name="action_sort" string="Sort" type="object" class="btn-secondary"
                         attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>
