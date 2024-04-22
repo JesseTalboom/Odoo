@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
-
 from odoo import models, fields, api
+
+LOCKED_FIELD_STATES = {
+    state: [('readonly', True)]
+    for state in {'done', 'cancel'}
+}
 
 class sale_order_line_inherit(models.Model):
     _inherit = 'sale.order.line'
@@ -13,17 +17,20 @@ class sale_order_line_inherit(models.Model):
         'sale.order.line', 'Full goods line', check_company=True,
         index=True, ondelete='cascade')
 
-    fullgoods_line_str = fields.Text('Full goods line', compute='_compute_fullgoods_line')
+    emptygoods_line_str = fields.Text('Empty goods line', compute='_compute_emptygoods_line')
 
     is_emptygoods_return = fields.Boolean('Empty goods return')
 
-    def _compute_fullgoods_line(self):
+    def _compute_emptygoods_line(self):
         for line in self:
             res = ""
-            if line.fullgoods_line_id:
+            if line.emptygoods_line_id:
+                res = line.emptygoods_line_id.product_id.name
+
+            elif line.fullgoods_line_id:
                 res = line.fullgoods_line_id.product_id.name
 
-            line.fullgoods_line_str = res
+            line.emptygoods_line_str = res
 
 class sale_order_inherit(models.Model):
     _inherit = 'sale.order'
@@ -32,6 +39,24 @@ class sale_order_inherit(models.Model):
     amount_emptygoods_plus = fields.Monetary(string='Empty goods (+)', store=True, readonly=True, compute='_amount_emptygoods')
     amount_emptygoods_total = fields.Monetary(string='Total empty goods', store=True, readonly=True, compute='_amount_emptygoods')
     amount_emptygoods_price_total = fields.Monetary(string='Total emptygoods excl.', store=True, readonly=True, compute='_amount_emptygoods')
+
+    # order_line = fields.One2many(
+    #     comodel_name='sale.order.line',
+    #     inverse_name='order_id',
+    #     string="Order Lines",
+    #     states=LOCKED_FIELD_STATES,
+    #     copy=True, auto_join=True,
+    #     domain=[('fullgoods_line_id', '=', None)]
+    # )
+
+    order_line_without_emptygoods = fields.One2many(
+        comodel_name='sale.order.line',
+        inverse_name='order_id',
+        string="Order Lines (without empty goods)",
+        states=LOCKED_FIELD_STATES,
+        copy=True, auto_join=True,
+        domain=[('fullgoods_line_id', '=', None)]
+    )
 
     @api.depends('order_line.price_total')
     def _amount_emptygoods(self):
@@ -114,3 +139,4 @@ class sale_order_inherit(models.Model):
                 }
 
                 emptygoods_return_line = self.env['sale.order.line'].create(values)
+

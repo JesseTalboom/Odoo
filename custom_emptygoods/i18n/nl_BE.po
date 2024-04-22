@@ -52,12 +52,12 @@ msgid "Emptygoods return"
 msgstr "Leeggoed retour"
 
 #. module: custom_emptygoods
-#: model:ir.model.fields,field_description:custom_emptygoods.field_purchase_order_line__fullgoods_line_id
-#: model:ir.model.fields,field_description:custom_emptygoods.field_purchase_order_line__fullgoods_line_str
-#: model:ir.model.fields,field_description:custom_emptygoods.field_sale_order_line__fullgoods_line_id
-#: model:ir.model.fields,field_description:custom_emptygoods.field_sale_order_line__fullgoods_line_str
-msgid "Full goods line"
-msgstr "Volgoed lijn"
+#: model:ir.model.fields,field_description:custom_emptygoods.field_purchase_order_line__emptygoods_line_id
+#: model:ir.model.fields,field_description:custom_emptygoods.field_purchase_order_line__emptygoods_line_str
+#: model:ir.model.fields,field_description:custom_emptygoods.field_sale_order_line__emptygoods_line_id
+#: model:ir.model.fields,field_description:custom_emptygoods.field_sale_order_line__emptygoods_line_str
+msgid "Empty goods line"
+msgstr "Leeggoed"
 
 #. module: custom_emptygoods
 #: model:ir.model.fields,field_description:custom_emptygoods.field_product_product__emptygoods

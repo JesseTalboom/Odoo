@@ -11,12 +11,23 @@
             <field name="amount_emptygoods_price_total"/>
           </xpath>
          <xpath expr="//field[@name='order_line']/tree/field[@name='tax_id']" position="after">
-            <field name="fullgoods_line_str"/>
+            <field name="emptygoods_line_str"/>
           </xpath>
-          <!-- TODO fix this -->
-<!--          <xpath expr="//field[@name='order_line']" position="attributes">-->
-<!--                <attribute name="domain">[('product_id', '!=', False),('product_id.emptygoods', '=', True)]</attribute>-->
-<!--          </xpath>-->
+          <xpath expr="//page[@name='order_lines']" position="after">
+                <page string="Order Lines (filtered)" name="order_lines_filtered">
+                    <field name="order_line_without_emptygoods" context="{'default_order_id': active_id}" readonly="1">
+                        <tree>
+                            <field name="product_id" />
+                            <field name="name" />
+                            <field name="product_uom_qty" />
+                            <field name="price_unit" widget="monetary"/>
+                            <field name="tax_id" widget="many2many_tags"/>
+                            <field name="emptygoods_line_str"/>
+                            <field name="price_subtotal" widget="monetary"/>
+                        </tree>
+                    </field>
+                </page>
+          </xpath>
           <button name="action_cancel" position="after">
                 <button name="create_emptygoods_return" string="Emptygoods return" type="object" class="btn-secondary"
                         attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>

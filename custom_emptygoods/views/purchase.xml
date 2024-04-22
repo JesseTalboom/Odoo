@@ -11,7 +11,7 @@
             <field name="amount_emptygoods_price_total"/>
           </xpath>
          <xpath expr="//field[@name='order_line']/tree/field[@name='taxes_id']" position="after">
-            <field name="fullgoods_line_str"/>
+            <field name="emptygoods_line_str"/>
           </xpath>
           <button name="button_cancel" position="after">
                 <button name="create_emptygoods_return" string="Emptygoods return" type="object" class="btn-secondary"
