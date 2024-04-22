@@ -55,7 +55,16 @@ class sale_order_inherit(models.Model):
         string="Order Lines (without empty goods)",
         states=LOCKED_FIELD_STATES,
         copy=True, auto_join=True,
-        domain=[('fullgoods_line_id', '=', None)]
+        domain=[('product_id.emptygoods', '=', False)]
+    )
+
+    order_line_emptygoods = fields.One2many(
+        comodel_name='sale.order.line',
+        inverse_name='order_id',
+        string="Order Lines (empty goods)",
+        states=LOCKED_FIELD_STATES,
+        copy=True, auto_join=True,
+        domain=[('product_id.emptygoods', '=', True)]
     )
 
     @api.depends('order_line.price_total')
