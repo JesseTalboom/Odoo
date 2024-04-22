@@ -1,34 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="custom_sale_order_portal_content" inherit_id="sale.sale_order_portal_content">
-        <xpath expr="//div[@id='total']/div" position="before">
-            <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'}">
-                <table class="table table-sm">
-                    <tr>
-                        <td>Empty goods (+)</td>
-                        <td  class="text-end">
-                            <span t-esc="sale_order.amount_emptygoods_plus" t-options='{"widget": "monetary", "display_currency": sale_order.pricelist_id.currency_id}'/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Empty goods (-)</td>
-                        <td  class="text-end">
-                            <span t-esc="sale_order.amount_emptygoods_min" t-options='{"widget": "monetary", "display_currency": sale_order.pricelist_id.currency_id}'/>
-                        </td>
-                    </tr>
-                    <tr class="border-black o_total">
-                        <td><strong>Total empty goods</strong></td>
-                        <td  class="text-end">
-                            <span t-esc="sale_order.amount_emptygoods_total" t-options='{"widget": "monetary", "display_currency": sale_order.pricelist_id.currency_id}'/>
-                        </td>
-                    </tr>
-                    <tr class="border-black o_total">
-                        <td><strong>Total emptygoods excl.</strong></td>
-                        <td  class="text-end">
-                            <span t-esc="sale_order.amount_emptygoods_price_total" t-options='{"widget": "monetary", "display_currency": sale_order.pricelist_id.currency_id}'/>
-                        </td>
-                    </tr>
-                </table>
+        <xpath expr="//div[@id='total']" position="before">
+            <div class="row">
+                <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ms-auto">
+                    <table class="table table-sm">
+                        <tr>
+                            <td>Empty goods (+)</td>
+                            <td  class="text-end">
+                                <span t-esc="sale_order.amount_emptygoods_plus" t-options='{"widget": "monetary", "display_currency": sale_order.pricelist_id.currency_id}'/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Empty goods (-)</td>
+                            <td  class="text-end">
+                                <span t-esc="sale_order.amount_emptygoods_min" t-options='{"widget": "monetary", "display_currency": sale_order.pricelist_id.currency_id}'/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Total empty goods</td>
+                            <td  class="text-end">
+                                <span t-esc="sale_order.amount_emptygoods_total" t-options='{"widget": "monetary", "display_currency": sale_order.pricelist_id.currency_id}'/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Total emptygoods excl.</td>
+                            <td  class="text-end">
+                                <span t-esc="sale_order.amount_emptygoods_price_total" t-options='{"widget": "monetary", "display_currency": sale_order.pricelist_id.currency_id}'/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </xpath>
 
