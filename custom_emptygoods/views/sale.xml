@@ -16,7 +16,7 @@
             <field name="emptygoods_line_str"/>
           </xpath>
           <xpath expr="//page[@name='order_lines']" position="after">
-                <page string="Filter (no empty goods)" name="order_lines_filtered">
+                <page string="Order lines (without empty goods)" name="order_lines_filtered">
                     <field name="order_line_without_emptygoods" context="{'default_order_id': active_id}" readonly="1" >
                         <tree attrs="{'invisible': 1}">
                             <field name="product_id" />
@@ -30,7 +30,7 @@
                         </tree>
                     </field>
                 </page>
-                <page string="Filter (empty goods)" name="order_lines_empty_goods">
+                <page string="Order lines (only empty goods)" name="order_lines_empty_goods">
                     <field name="order_line_emptygoods" context="{'default_order_id': active_id}" readonly="1" >
                         <tree attrs="{'invisible': 1}">
                             <field name="product_id" />

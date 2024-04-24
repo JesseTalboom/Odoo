@@ -2,6 +2,10 @@
 
 from odoo import models, fields, api
 
+LOCKED_FIELD_STATES = {
+    state: [('readonly', True)]
+    for state in {'done', 'cancel'}
+}
 class purchase_order_line_inherit(models.Model):
     _inherit = 'purchase.order.line'
 
@@ -36,6 +40,24 @@ class purchase_order_inherit(models.Model):
     amount_emptygoods_plus = fields.Monetary(string='Empty goods (+)', store=True, readonly=True, compute='_amount_emptygoods')
     amount_emptygoods_total = fields.Monetary(string='Total empty goods', store=True, readonly=True, compute='_amount_emptygoods')
     amount_emptygoods_price_total = fields.Monetary(string='Total emptygoods excl.', store=True, readonly=True, compute='_amount_emptygoods')
+
+    order_line_without_emptygoods = fields.One2many(
+        comodel_name='purchase.order.line',
+        inverse_name='order_id',
+        string="Order Lines (without empty goods)",
+        states=LOCKED_FIELD_STATES,
+        copy=True,
+        domain=[('product_id.emptygoods', '=', False)]
+    )
+
+    order_line_emptygoods = fields.One2many(
+        comodel_name='purchase.order.line',
+        inverse_name='order_id',
+        string="Order Lines (only empty goods)",
+        states=LOCKED_FIELD_STATES,
+        copy=True,
+        domain=[('product_id.emptygoods', '=', True)]
+    )
 
     @api.depends('order_line.price_total')
     def _amount_emptygoods(self):

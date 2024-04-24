@@ -26,8 +26,9 @@
     'data': [
         'views/product.xml',
         'views/sale.xml',
-        'views/sale_portal_templates.xml',
+        'views/sale_templates.xml',
         'views/purchase.xml',
+        'views/purchase_templates.xml',
     ],
     'assets': {
         'point_of_sale.assets': [

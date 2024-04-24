@@ -61,7 +61,7 @@ class sale_order_inherit(models.Model):
     order_line_emptygoods = fields.One2many(
         comodel_name='sale.order.line',
         inverse_name='order_id',
-        string="Order Lines (empty goods)",
+        string="Order Lines (only empty goods)",
         states=LOCKED_FIELD_STATES,
         copy=True, auto_join=True,
         domain=[('product_id.emptygoods', '=', True)]
