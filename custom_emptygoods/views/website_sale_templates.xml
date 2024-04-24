@@ -11,6 +11,16 @@
                 <attribute name="t-att-style">'display: None;' if line.product_id.emptygoods else ''</attribute>
             </xpath>
       </template>
+      <template id="cart_popover" name="Cart Popover" inherit_id="website_sale.cart_popover">
+            <xpath expr="//div[@class='row mb8 cart_line']" position="attributes">
+                <attribute name="t-att-style">'display: None;' if line.product_id.emptygoods else ''</attribute>
+            </xpath>
+            <xpath expr="//a[@href='/shop/cart']" position="replace">
+                <a role="button" class="btn btn-primary" href="/shop/cart">
+                    View Cart
+                </a>
+            </xpath>
+      </template>
 
       <!-- Add empty goods in cart -->
         <template id="total" name="Total" inherit_id="website_sale.total">
