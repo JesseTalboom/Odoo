@@ -1,0 +1,28 @@
+<odoo>
+  <data>
+      <!-- Hide empty good lines-->
+      <template id="cart_lines" name="Shopping Cart Lines" inherit_id="website_sale.cart_lines">
+            <xpath expr="//table[@id='cart_products']/tbody/t/tr" position="attributes">
+                <attribute name="t-att-style">'display: None;' if line.product_id.emptygoods else ''</attribute>
+            </xpath>
+      </template>
+      <template id="cart_summary" name="Payment" inherit_id="website_sale.cart_summary">
+            <xpath expr="//table[@id='cart_products']/tbody/tr" position="attributes">
+                <attribute name="t-att-style">'display: None;' if line.product_id.emptygoods else ''</attribute>
+            </xpath>
+      </template>
+
+      <!-- Add empty goods in cart -->
+        <template id="total" name="Total" inherit_id="website_sale.total">
+            <xpath expr="//div[@id='cart_total']/table/tr" position="before">
+                <tr id="emptygoods">
+                      <td class="text-end border-0">Emptygoods:</td>
+                      <td class="text-xl-end border-0" >
+                          <span t-field="website_sale_order.amount_emptygoods_total" class="monetary_field" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}"/>
+                      </td>
+                </tr>
+            </xpath>
+      </template>
+
+  </data>
+</odoo>

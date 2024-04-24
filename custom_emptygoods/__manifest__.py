@@ -27,6 +27,7 @@
         'views/product.xml',
         'views/sale.xml',
         'views/sale_templates.xml',
+        'views/website_sale_templates.xml',
         'views/purchase.xml',
         'views/purchase_templates.xml',
     ],

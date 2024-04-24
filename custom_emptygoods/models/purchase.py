@@ -86,9 +86,8 @@ class purchase_order_inherit(models.Model):
 
     @api.depends('order_line.price_total')
     def _amount_all(self):
-        res = super(purchase_order_inherit, self)._amount_all()
-
         self._create_or_update_emptygoods_orderlines()
+        res = super(purchase_order_inherit, self)._amount_all()
 
     def _create_or_update_emptygoods_orderlines(self):
         for line in self.order_line:

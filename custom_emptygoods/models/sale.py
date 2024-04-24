@@ -93,9 +93,8 @@ class sale_order_inherit(models.Model):
             order.amount_emptygoods_price_total = sum(order.order_line.mapped('price_subtotal')) - order.amount_emptygoods_total
 
     def _compute_amounts(self):
-        res = super(sale_order_inherit, self)._compute_amounts()
-
         self._create_or_update_emptygoods_orderlines()
+        res = super(sale_order_inherit, self)._compute_amounts()
 
     def _create_or_update_emptygoods_orderlines(self):
         for line in self.order_line:

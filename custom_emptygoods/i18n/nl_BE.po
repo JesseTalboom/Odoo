@@ -64,9 +64,9 @@ msgid "Emptygoods return"
 msgstr "Leeggoed retour"
 
 #. module: custom_emptygoods
-#: model_terms:ir.ui.view,arch_db:custom_emptygoods.view_sale_order_inherit
-msgid "Emptygoods return 2"
-msgstr "Leeggoed retour"
+#: model_terms:ir.ui.view,arch_db:custom_emptygoods.total
+msgid "Emptygoods:"
+msgstr "Leeggoed:"
 
 #. module: custom_emptygoods
 #: model:ir.model.fields,field_description:custom_emptygoods.field_purchase_order_line__fullgoods_line_id

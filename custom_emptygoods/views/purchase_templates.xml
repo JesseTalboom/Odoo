@@ -1,5 +1,6 @@
 <odoo>
   <data>
+    <!-- PO report -->
     <template id="report_purchaseorder_document" inherit_id="purchase.report_purchaseorder_document">
         <xpath expr="//t[@t-foreach='o.order_line']" position="replace">
             <t t-foreach="o.order_line_report" t-as="line">
@@ -81,6 +82,7 @@
         </xpath>
     </template>
 
+     <!-- Quotation report   -->
       <template id="report_purchasequotation_document" inherit_id="purchase.report_purchasequotation_document">
         <xpath expr="//t[@t-foreach='o.order_line']" position="replace">
             <t t-foreach="o.order_line_report" t-as="order_line">

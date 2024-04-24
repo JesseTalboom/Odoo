@@ -1,5 +1,6 @@
 <odoo>
   <data>
+      <!-- Customer Portal -->
     <template id="custom_sale_order_portal_content" inherit_id="sale.sale_order_portal_content">
         <xpath expr="//div[@id='total']" position="before">
             <div class="row">
@@ -27,6 +28,7 @@
         </xpath>
     </template>
 
+    <!-- Sale report -->
     <template id="report_saleorder_document" inherit_id="sale.report_saleorder_document">
          <xpath expr="//div[@id='total']" position="before">
             <t t-set="sale_order" t-value="doc"/>
