@@ -67,6 +67,15 @@ class sale_order_inherit(models.Model):
         domain=[('product_id.emptygoods', '=', True)]
     )
 
+    order_line_report = fields.One2many(
+        comodel_name='sale.order.line',
+        inverse_name='order_id',
+        string="Order Lines (report)",
+        states=LOCKED_FIELD_STATES,
+        copy=True, auto_join=True,
+        domain=[('fullgoods_line_id', '=', None), ('is_emptygoods_return', '=', False)]
+    )
+
     @api.depends('order_line.price_total')
     def _amount_emptygoods(self):
         for order in self:
@@ -153,4 +162,4 @@ class sale_order_inherit(models.Model):
     def _get_order_lines_to_report(self):
         order_lines = super(sale_order_inherit, self)._get_order_lines_to_report()
        # return order_lines.filtered(lambda l: l.fullgoods_line_id is None)
-        return self.order_line_without_emptygoods
+        return self.order_line_report

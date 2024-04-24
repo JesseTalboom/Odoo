@@ -6,14 +6,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-11 13:58+0000\n"
-"PO-Revision-Date: 2024-03-11 13:58+0000\n"
+"POT-Creation-Date: 2024-04-24 18:19+0000\n"
+"PO-Revision-Date: 2024-04-24 18:19+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: custom_emptygoods
+#: model_terms:ir.ui.view,arch_db:custom_emptygoods.report_purchaseorder_document
+msgid "<strong class=\"mr16\">Subtotal</strong>"
+msgstr "<strong class=\"mr16\">Subtotaal</strong>"
 
 #. module: custom_emptygoods
 #: model:ir.model.fields,field_description:custom_emptygoods.field_product_product__emptygoods_product_id
@@ -24,18 +29,26 @@ msgstr "Leeggoed"
 #. module: custom_emptygoods
 #: model:ir.model.fields,field_description:custom_emptygoods.field_purchase_order__amount_emptygoods_plus
 #: model:ir.model.fields,field_description:custom_emptygoods.field_sale_order__amount_emptygoods_plus
+#: model_terms:ir.ui.view,arch_db:custom_emptygoods.custom_sale_order_portal_content
+#: model_terms:ir.ui.view,arch_db:custom_emptygoods.report_purchaseorder_document
+#: model_terms:ir.ui.view,arch_db:custom_emptygoods.report_saleorder_document
 msgid "Empty goods (+)"
 msgstr "Leeggoed (+)"
 
 #. module: custom_emptygoods
 #: model:ir.model.fields,field_description:custom_emptygoods.field_purchase_order__amount_emptygoods_min
 #: model:ir.model.fields,field_description:custom_emptygoods.field_sale_order__amount_emptygoods_min
+#: model_terms:ir.ui.view,arch_db:custom_emptygoods.custom_sale_order_portal_content
+#: model_terms:ir.ui.view,arch_db:custom_emptygoods.report_purchaseorder_document
+#: model_terms:ir.ui.view,arch_db:custom_emptygoods.report_saleorder_document
 msgid "Empty goods (-)"
 msgstr "Leeggoed (-)"
 
 #. module: custom_emptygoods
 #: model:ir.model.fields,field_description:custom_emptygoods.field_purchase_order_line__emptygoods_line_id
+#: model:ir.model.fields,field_description:custom_emptygoods.field_purchase_order_line__emptygoods_line_str
 #: model:ir.model.fields,field_description:custom_emptygoods.field_sale_order_line__emptygoods_line_id
+#: model:ir.model.fields,field_description:custom_emptygoods.field_sale_order_line__emptygoods_line_str
 msgid "Empty goods line"
 msgstr "Leeggoed lijn"
 
@@ -47,17 +60,19 @@ msgstr "Leeggoed retour"
 
 #. module: custom_emptygoods
 #: model_terms:ir.ui.view,arch_db:custom_emptygoods.view_purchase_order_inherit
-#: model_terms:ir.ui.view,arch_db:custom_emptygoods.view_sale_order_inherit
 msgid "Emptygoods return"
 msgstr "Leeggoed retour"
 
 #. module: custom_emptygoods
-#: model:ir.model.fields,field_description:custom_emptygoods.field_purchase_order_line__emptygoods_line_id
-#: model:ir.model.fields,field_description:custom_emptygoods.field_purchase_order_line__emptygoods_line_str
-#: model:ir.model.fields,field_description:custom_emptygoods.field_sale_order_line__emptygoods_line_id
-#: model:ir.model.fields,field_description:custom_emptygoods.field_sale_order_line__emptygoods_line_str
-msgid "Empty goods line"
-msgstr "Leeggoed"
+#: model_terms:ir.ui.view,arch_db:custom_emptygoods.view_sale_order_inherit
+msgid "Emptygoods return 2"
+msgstr "Leeggoed retour"
+
+#. module: custom_emptygoods
+#: model:ir.model.fields,field_description:custom_emptygoods.field_purchase_order_line__fullgoods_line_id
+#: model:ir.model.fields,field_description:custom_emptygoods.field_sale_order_line__fullgoods_line_id
+msgid "Full goods line"
+msgstr "Volgoed lijn"
 
 #. module: custom_emptygoods
 #: model:ir.model.fields,field_description:custom_emptygoods.field_product_product__emptygoods
@@ -67,30 +82,82 @@ msgstr "Is leeggoed"
 
 #. module: custom_emptygoods
 #. odoo-javascript
+#: code:addons/custom_emptygoods/static/src/xml/pos_receipt.xml:0
+#, python-format
+msgid "Empty goods (+)"
+msgstr "Leeggoed (+)"
+
+#. module: custom_emptygoods
+#. odoo-javascript
+#: code:addons/custom_emptygoods/static/src/xml/pos_receipt.xml:0
+#, python-format
+msgid "Empty goods (-)"
+msgstr "Leeggoed (-)"
+
+#. module: custom_emptygoods
+#. odoo-javascript
 #: code:addons/custom_emptygoods/static/src/xml/EmptyGoodsButton.xml:0
 #, python-format
-msgid "Leeggoed retour"
+msgid "Empty goods return"
 msgstr "Leeggoed retour"
+
+#. module: custom_emptygoods
+#: model:ir.model.fields,field_description:custom_emptygoods.field_purchase_order__order_line_emptygoods
+#: model:ir.model.fields,field_description:custom_emptygoods.field_sale_order__order_line_emptygoods
+msgid "Order Lines (only empty goods)"
+msgstr "Orderregels (enkel leeggoed)"
+
+#. module: custom_emptygoods
+#: model:ir.model.fields,field_description:custom_emptygoods.field_purchase_order__order_line_report
+#: model:ir.model.fields,field_description:custom_emptygoods.field_sale_order__order_line_report
+msgid "Order Lines (report)"
+msgstr "Orderregels (rapport)"
+
+#. module: custom_emptygoods
+#: model:ir.model.fields,field_description:custom_emptygoods.field_purchase_order__order_line_without_emptygoods
+#: model:ir.model.fields,field_description:custom_emptygoods.field_sale_order__order_line_without_emptygoods
+msgid "Order Lines (without empty goods)"
+msgstr "Orderregels (zonder leeggoed)"
+
+#. module: custom_emptygoods
+#: model_terms:ir.ui.view,arch_db:custom_emptygoods.view_sale_order_inherit
+msgid "Order lines (only empty goods)"
+msgstr "Orderregels (enkel leeggoed)"
+
+#. module: custom_emptygoods
+#: model_terms:ir.ui.view,arch_db:custom_emptygoods.view_sale_order_inherit
+msgid "Order lines (without empty goods)"
+msgstr "Orderregels (zonder leeggoed)"
 
 #. module: custom_emptygoods
 #: model:ir.model,name:custom_emptygoods.model_pos_session
 msgid "Point of Sale Session"
-msgstr "Kassaverkoop sessie"
+msgstr "Kassasessie"
 
 #. module: custom_emptygoods
 #: model:ir.model,name:custom_emptygoods.model_product_template
 msgid "Product"
-msgstr "Product"
+msgstr ""
+
+#. module: custom_emptygoods
+#: model_terms:ir.ui.view,arch_db:custom_emptygoods.view_purchase_order_inherit
+msgid "Products (only empty goods)"
+msgstr "Producten (enkel leeggoed)"
+
+#. module: custom_emptygoods
+#: model_terms:ir.ui.view,arch_db:custom_emptygoods.view_purchase_order_inherit
+msgid "Products (without empty goods)"
+msgstr "Producten (zonder leeggoed)"
 
 #. module: custom_emptygoods
 #: model:ir.model,name:custom_emptygoods.model_purchase_order
 msgid "Purchase Order"
-msgstr "Aankooporder"
+msgstr "Inkooporder"
 
 #. module: custom_emptygoods
 #: model:ir.model,name:custom_emptygoods.model_purchase_order_line
 msgid "Purchase Order Line"
-msgstr "Aankooporderlijn"
+msgstr "Inkooporderregel"
 
 #. module: custom_emptygoods
 #: model:ir.model,name:custom_emptygoods.model_sale_order
@@ -100,7 +167,7 @@ msgstr "Verkooporder"
 #. module: custom_emptygoods
 #: model:ir.model,name:custom_emptygoods.model_sale_order_line
 msgid "Sales Order Line"
-msgstr "Verkooporderlijn"
+msgstr "Verkooporderregel"
 
 #. module: custom_emptygoods
 #: model_terms:ir.ui.view,arch_db:custom_emptygoods.view_purchase_order_inherit
@@ -109,13 +176,26 @@ msgid "Sort"
 msgstr "Sorteer"
 
 #. module: custom_emptygoods
+#. odoo-javascript
+#: code:addons/custom_emptygoods/static/src/xml/pos_receipt.xml:0
+#, python-format
+msgid "Total empty goods"
+msgstr "Totaal leeggoed"
+
+#. module: custom_emptygoods
 #: model:ir.model.fields,field_description:custom_emptygoods.field_purchase_order__amount_emptygoods_total
 #: model:ir.model.fields,field_description:custom_emptygoods.field_sale_order__amount_emptygoods_total
+#: model_terms:ir.ui.view,arch_db:custom_emptygoods.custom_sale_order_portal_content
+#: model_terms:ir.ui.view,arch_db:custom_emptygoods.report_purchaseorder_document
+#: model_terms:ir.ui.view,arch_db:custom_emptygoods.report_saleorder_document
 msgid "Total empty goods"
 msgstr "Totaal leeggoed"
 
 #. module: custom_emptygoods
 #: model:ir.model.fields,field_description:custom_emptygoods.field_purchase_order__amount_emptygoods_price_total
 #: model:ir.model.fields,field_description:custom_emptygoods.field_sale_order__amount_emptygoods_price_total
+#: model_terms:ir.ui.view,arch_db:custom_emptygoods.custom_sale_order_portal_content
+#: model_terms:ir.ui.view,arch_db:custom_emptygoods.report_purchaseorder_document
+#: model_terms:ir.ui.view,arch_db:custom_emptygoods.report_saleorder_document
 msgid "Total emptygoods excl."
 msgstr "Totaalprijs excl. leeggoed"
