@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
 
+
 LOCKED_FIELD_STATES = {
     state: [('readonly', True)]
     for state in {'done', 'cancel'}
