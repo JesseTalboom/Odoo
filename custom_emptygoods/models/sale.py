@@ -77,6 +77,25 @@ class sale_order_inherit(models.Model):
         domain=[('fullgoods_line_id', '=', None), ('is_emptygoods_return', '=', False)]
     )
 
+    cart_quantity2 = fields.Integer(compute='_compute_cart_info2', string='Cart Quantity')
+
+    def _compute_cart_info2(self):
+        for order in self:
+            # Get the relevant order lines where the product has 'emptygoods' property set to False
+            full_goods_lines = [
+                line for line in order.website_order_line
+                if not line.product_id.emptygoods
+            ]
+
+            # Calculate the sum of 'product_uom_qty' for these filtered lines
+            full_goods_quantity = sum(line.product_uom_qty for line in full_goods_lines)
+
+            # Convert to integer (if needed) and assign to a variable
+            total_full_goods = int(full_goods_quantity)
+
+            # **Odoo standard code**: int(sum(order.mapped('website_order_line.product_uom_qty')))
+            order.cart_quantity2 = total_full_goods
+
     @api.depends('order_line.price_total')
     def _amount_emptygoods(self):
         for order in self:

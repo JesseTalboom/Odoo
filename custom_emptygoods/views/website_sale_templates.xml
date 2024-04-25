@@ -23,7 +23,7 @@
       </template>
 
       <!-- Add empty goods in cart -->
-        <template id="total" name="Total" inherit_id="website_sale.total">
+      <template id="total" name="Total" inherit_id="website_sale.total">
             <xpath expr="//div[@id='cart_total']/table/tr" position="before">
                 <tr id="emptygoods">
                       <td class="text-end border-0">Emptygoods:</td>
@@ -31,6 +31,18 @@
                           <span t-field="website_sale_order.amount_emptygoods_total" class="monetary_field" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}"/>
                       </td>
                 </tr>
+            </xpath>
+      </template>
+
+      <!-- Fix quantity cart button top bar -->
+      <template id="header_cart_link" name="Header cart link" inherit_id="website_sale.header_cart_link">
+            <xpath expr="//a[@href='/shop/cart']" position="replace">
+                <t t-set="website_sale_cart_quantity2" t-value="website.sale_get_order().cart_quantity2"/>
+                <a href="/shop/cart" t-attf-class="#{_link_class}">
+                    <i t-if="_icon" class="fa fa-shopping-cart"/>
+                    <span t-if="_text">My Cart</span>
+                    <sup class="my_cart_quantity2 badge text-bg-primary" t-esc="website_sale_cart_quantity2" t-att-data-order-id="request.session.get('sale_order_id', '')"/>
+                </a>
             </xpath>
       </template>
 
