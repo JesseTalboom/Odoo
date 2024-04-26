@@ -74,7 +74,7 @@ class sale_order_inherit(models.Model):
         string="Order Lines (report)",
         states=LOCKED_FIELD_STATES,
         copy=True, auto_join=True,
-        domain=[('fullgoods_line_id', '=', None), ('is_emptygoods_return', '=', False)]
+        domain=[('fullgoods_line_id', '=', None)]
     )
 
     cart_quantity2 = fields.Integer(compute='_compute_cart_info2', string='Cart Quantity')

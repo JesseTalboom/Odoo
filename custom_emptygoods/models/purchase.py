@@ -65,7 +65,7 @@ class purchase_order_inherit(models.Model):
         string="Order Lines (report)",
         states=LOCKED_FIELD_STATES,
         copy=True, auto_join=True,
-        domain=[('fullgoods_line_id', '=', None), ('is_emptygoods_return', '=', False)]
+        domain=[('fullgoods_line_id', '=', None)]
     )
 
     @api.depends('order_line.price_total')
