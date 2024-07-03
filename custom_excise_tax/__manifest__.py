@@ -25,8 +25,7 @@
     # always loaded
     'data': [
         'views/product.xml',
-        #'views/sale.xml',
-       # 'views/purchase.xml',
+        'views/stock.xml',
     ],
     'assets': {
     },
