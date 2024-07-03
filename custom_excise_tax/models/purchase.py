@@ -1,0 +1,150 @@
+# -*- coding: utf-8 -*-
+
+from odoo import models, fields, api
+
+LOCKED_FIELD_STATES = {
+    state: [('readonly', True)]
+    for state in {'done', 'cancel'}
+}
+class purchase_order_line_inherit(models.Model):
+    _inherit = 'purchase.order.line'
+
+    emptygoods_line_id = fields.Many2one(
+        'purchase.order.line', 'Empty goods line', check_company=True,
+        index=True, ondelete='cascade')
+
+    fullgoods_line_id = fields.Many2one(
+        'purchase.order.line', 'Full goods line', check_company=True,
+        index=True, ondelete='cascade')
+
+    emptygoods_line_str = fields.Text('Empty goods line', compute='_compute_emptygoods_line')
+
+    is_emptygoods_return = fields.Boolean('Empty goods return')
+
+    def _compute_emptygoods_line(self):
+        for line in self:
+            res = ""
+
+            if line.emptygoods_line_id:
+                res = line.emptygoods_line_id.product_id.name
+
+            elif line.fullgoods_line_id:
+                res = line.fullgoods_line_id.product_id.name
+
+            line.emptygoods_line_str = res
+
+class purchase_order_inherit(models.Model):
+    _inherit = 'purchase.order'
+
+    amount_emptygoods_min = fields.Monetary(string='Empty goods (-)', store=True, readonly=True, compute='_amount_emptygoods')
+    amount_emptygoods_plus = fields.Monetary(string='Empty goods (+)', store=True, readonly=True, compute='_amount_emptygoods')
+    amount_emptygoods_total = fields.Monetary(string='Total empty goods', store=True, readonly=True, compute='_amount_emptygoods')
+    amount_emptygoods_price_total = fields.Monetary(string='Total emptygoods excl.', store=True, readonly=True, compute='_amount_emptygoods')
+
+    order_line_without_emptygoods = fields.One2many(
+        comodel_name='purchase.order.line',
+        inverse_name='order_id',
+        string="Order Lines (without empty goods)",
+        states=LOCKED_FIELD_STATES,
+        copy=True,
+        domain=[('product_id.emptygoods', '=', False)]
+    )
+
+    order_line_emptygoods = fields.One2many(
+        comodel_name='purchase.order.line',
+        inverse_name='order_id',
+        string="Order Lines (only empty goods)",
+        states=LOCKED_FIELD_STATES,
+        copy=True,
+        domain=[('product_id.emptygoods', '=', True)]
+    )
+
+    order_line_report = fields.One2many(
+        comodel_name='purchase.order.line',
+        inverse_name='order_id',
+        string="Order Lines (report)",
+        states=LOCKED_FIELD_STATES,
+        copy=True, auto_join=True,
+        domain=[('fullgoods_line_id', '=', None)]
+    )
+
+    @api.depends('order_line.price_total')
+    def _amount_emptygoods(self):
+        for order in self:
+            emptygoods_order_lines = order.order_line.filtered(lambda x: x.product_id.emptygoods)
+            emptygoods_order_lines_min = emptygoods_order_lines.filtered(lambda x: x.price_subtotal < 0)
+            emptygoods_order_lines_plus = emptygoods_order_lines.filtered(lambda x: x.price_subtotal > 0)
+
+            amount_emptygoods_min = sum(emptygoods_order_lines_min.mapped('price_subtotal'))
+            amount_emptygoods_plus = sum(emptygoods_order_lines_plus.mapped('price_subtotal'))
+
+            order.amount_emptygoods_min = amount_emptygoods_min
+            order.amount_emptygoods_plus = amount_emptygoods_plus
+            order.amount_emptygoods_total = order.amount_emptygoods_min + order.amount_emptygoods_plus
+
+            order.amount_emptygoods_price_total = sum(order.order_line.mapped('price_subtotal')) - order.amount_emptygoods_total
+
+    @api.depends('order_line.price_total')
+    def _amount_all(self):
+        self._create_or_update_emptygoods_orderlines()
+        res = super(purchase_order_inherit, self)._amount_all()
+
+    def _create_or_update_emptygoods_orderlines(self):
+        for line in self.order_line:
+            if line.product_id:
+                # check if line is a fullgood line
+                if line.product_id.emptygoods_product_id:
+                    # if empty goods link exists, update
+                    if line.emptygoods_line_id:
+                        line.emptygoods_line_id.product_qty = line.product_qty
+
+                    # if not, create
+                    else:
+                        empty_goods_product_template = line.product_id.emptygoods_product_id.product_tmpl_id
+                        empty_goods_product_product = line.product_id.emptygoods_product_id
+
+                        if line.product_qty > 0:
+                            values = {
+                                'order_id': self.id,
+                                'product_qty': line.product_qty,
+                                'product_uom': empty_goods_product_product.uom_id.id,
+                                'product_id': empty_goods_product_product.id,
+                                'name': empty_goods_product_template.name,
+                                'price_unit': empty_goods_product_template.list_price,
+                                'taxes_id': [(6, 0, empty_goods_product_template.taxes_id.ids)],
+                                'fullgoods_line_id': line.id
+                            }
+                            so_emptygoods_line = self.env['purchase.order.line'].create(values)
+
+                            line.emptygoods_line_id = so_emptygoods_line.id
+
+    def action_sort(self):
+        seq_1 = 0
+        seq_2 = 999
+        seq_3 = 9999
+        for line in self.order_line:
+            if line.product_id and not line.product_id.emptygoods:
+                line.sequence = seq_1
+                seq_1 += 1
+            else:
+                if line.fullgoods_line_id:
+                    line.sequence = seq_2
+                    seq_2 += 1
+                else:
+                    line.sequence = seq_3
+                    seq_2 += 3
+
+    def create_emptygoods_return(self):
+        for line in self.order_line.filtered(lambda x: x.product_id.emptygoods and x.fullgoods_line_id):
+            values = {
+                'order_id': self.id,
+                'product_qty': -line.product_qty,
+                'product_uom': line.product_uom.id,
+                'product_id': line.product_id.id,
+                'name': line.name,
+                'price_unit': line.price_unit,
+                'taxes_id': [(6, 0, line.taxes_id.ids)],
+                'is_emptygoods_return': True
+            }
+
+            emptygoods_return_line = self.env['purchase.order.line'].create(values)

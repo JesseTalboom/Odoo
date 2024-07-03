@@ -1,0 +1,57 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="view_purchase_order_inherit">
+      <field name="model">purchase.order</field>
+      <field name="inherit_id" ref="purchase.purchase_order_form"/>
+      <field name="arch" type="xml">
+          <xpath expr="//field[@name='notes']" position="after">
+            <field name="amount_emptygoods_plus"/>
+            <field name="amount_emptygoods_min"/>
+            <field name="amount_emptygoods_total"/>
+          </xpath>
+         <xpath expr="//field[@name='tax_totals']" position="before">
+            <field name="amount_emptygoods_price_total"/>
+          </xpath>
+          <xpath expr="//field[@name='order_line']/tree/field[@name='taxes_id']" position="after">
+            <field name="emptygoods_line_str"/>
+          </xpath>
+          <xpath expr="//page[@name='products']" position="after">
+                <page string="Products (without empty goods)" name="order_lines_filtered">
+                    <field name="order_line_without_emptygoods" context="{'default_order_id': active_id}" readonly="1" >
+                        <tree attrs="{'invisible': 1}">
+                            <field name="product_id" />
+                            <field name="name" />
+                            <field name="product_qty" />
+                            <field name="price_unit" widget="monetary"/>
+                            <field name="taxes_id" widget="many2many_tags"/>
+                            <field name="emptygoods_line_str"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="price_subtotal" widget="monetary"/>
+                        </tree>
+                    </field>
+                </page>
+                <page string="Products (only empty goods)" name="order_lines_empty_goods">
+                    <field name="order_line_emptygoods" context="{'default_order_id': active_id}" readonly="1" >
+                        <tree attrs="{'invisible': 1}">
+                            <field name="product_id" />
+                            <field name="name" />
+                            <field name="product_qty" />
+                            <field name="price_unit" widget="monetary"/>
+                            <field name="taxes_id" widget="many2many_tags"/>
+                            <field name="emptygoods_line_str"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="price_subtotal" widget="monetary"/>
+                        </tree>
+                    </field>
+                </page>
+          </xpath>
+          <button name="button_cancel" position="after">
+                <button name="create_emptygoods_return" string="Emptygoods return" type="object" class="btn-secondary"
+                        attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>
+                <button name="action_sort" string="Sort" type="object" class="btn-secondary"
+                        attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>
+          </button>
+      </field>
+    </record>
+  </data>
+</odoo>

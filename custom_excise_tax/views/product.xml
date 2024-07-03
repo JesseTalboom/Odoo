@@ -1,0 +1,31 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="view_product_template_inherit">
+      <field name="model">product.template</field>
+      <field name="inherit_id" ref="product.product_template_only_form_view"/>
+      <field name="arch" type="xml">
+          <xpath expr="//notebook" position="inside">
+                <page string="Excise tax">
+                    <group>
+                        <group>
+                            <label for="volume"/>
+                            <div class="o_row">
+                                <field name="volume" class="oe_inline"/>
+                                <span><field name="volume_uom_name"/></span>
+                            </div>
+                            <field name="alcohol_volume"/>
+                            <field name="gn_code"/>
+                            <field name="excise_product_code"/>
+                        </group>
+                        <group>
+                            <field name="excise_price"/>
+                            <field name="eco_tax"/>
+                            <field name="cost_price_excise_excl"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>
