@@ -1,0 +1,90 @@
+<odoo>
+    <record id="view_excise_register_form" model="ir.ui.view">
+        <field name="name">excise.register.form</field>
+        <field name="model">excise.register</field>
+        <field name="arch" type="xml">
+            <form string="Excise Register">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="type"/>
+                            <field name="type2"/>
+                            <field name="date_ead"/>
+                            <field name="number_ead"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Amounts">
+                            <group>
+                                <group name="ethylalcohol" string="Ethylalcohol">
+                                    <field name="amount_ethylalcohol_vol" string="Amount %vol"/>
+                                    <field name="amount_ethylalcohol_real" string="Amount real"/>
+                                    <field name="amount_ethylalcohol_100vol" string="Amount 100%vol"/>
+                                </group>
+                                <group name="sparkling_wine" string="Sparkling Wine">
+                                    <field name="amount_sparkling_wine" string="Amount"/>
+                                </group>
+                                <group name="still_wine" string="Still Wine">
+                                    <field name="amount_still_wine" string="Amount"/>
+                                </group>
+                                <group name="intermediate" string="Intermediate">
+                                    <field name="amount_intermediate_vol" string="Amount %vol"/>
+                                    <field name="amount_intermediate_real" string="Amount real"/>
+                                    <field name="amount_intermediate_100vol" string="Amount 100%vol"/>
+                                </group>
+                            </group>
+                            <group name="note_group" col="6" class="mt-2 mt-md-0">
+                                <group>
+                                    <field name="total"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="References">
+                            <group>
+                                <field name="sale_order_id"/>
+                                <field name="purchase_order_id"/>
+                                <field name="stock_move_id"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_excise_register_tree" model="ir.ui.view">
+        <field name="name">excise.register.tree</field>
+        <field name="model">excise.register</field>
+        <field name="arch" type="xml">
+            <tree string="Excise Registers">
+                <field name="date"/>
+                <field name="type"/>
+                <field name="date_ead"/>
+                <field name="number_ead"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_excise_register" model="ir.actions.act_window">
+            <field name="name">Excise Register</field>
+            <field name="res_model">excise.register</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_excise_register_tree"/>
+<!--            <field name="context">{'search_default_done': 1, 'create': 0}</field>-->
+            <field name="help" type="html">
+                <p class="o_view_nocontent_empty_folder">
+                    Click to create a new excise register.
+                </p>
+                <p>
+                    This menu gives you all excise registers.
+                </p>
+            </field>
+    </record>
+
+    <menuitem id="menu_excise_register" name="Excise Register" parent="stock.menu_warehouse_report" action="action_excise_register" sequence="10"/>
+
+</odoo>

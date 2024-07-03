@@ -26,6 +26,7 @@
     'data': [
         'views/product.xml',
         'views/stock.xml',
+        'views/excise_register.xml',
     ],
     'assets': {
     },
