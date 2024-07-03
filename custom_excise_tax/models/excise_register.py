@@ -37,7 +37,7 @@ class ExciseRegister(models.Model):
             if s.type == 'in':
                 s.type2 = 'ead'
             else:
-                if s.sale_order_id.partner_id.country_id.code != 'BE': #TODO
+                if s.sale_order_id and s.sale_order_id.partner_id.country_id.code != 'BE':
                     s.type2 = 'ead'
                 else:
                     s.type2 = 'ac4'
