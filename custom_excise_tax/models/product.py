@@ -2,6 +2,11 @@
 
 from odoo import models, fields, api
 
+class product_product_inherit(models.Model):
+    _inherit = 'product.product'
+
+    excise_register_id = fields.Many2one('excise.register', string="Excise Register")
+
 class product_template_inherit(models.Model):
     _inherit = 'product.template'
 

@@ -36,7 +36,7 @@
                                     <field name="amount_intermediate_100vol" string="Amount 100%vol"/>
                                 </group>
                             </group>
-                            <group name="note_group" col="6" class="mt-2 mt-md-0">
+                            <group name="total" string="Totals">
                                 <group>
                                     <field name="total"/>
                                 </group>
@@ -47,6 +47,12 @@
                                 <field name="sale_order_id"/>
                                 <field name="purchase_order_id"/>
                                 <field name="stock_picking_id"/>
+                                <field name="product_ids">
+                                    <tree>
+                                        <field name="default_code"/>
+                                        <field name="name"/>
+                                    </tree>
+                                </field>
                             </group>
                         </page>
                     </notebook>
