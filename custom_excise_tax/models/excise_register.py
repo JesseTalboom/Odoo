@@ -29,7 +29,7 @@ class ExciseRegister(models.Model):
 
     sale_order_id = fields.Many2one('sale.order', string="Sale Order", readonly=True)
     purchase_order_id = fields.Many2one('purchase.order', string="Purchase Order", readonly=True)
-    stock_move_id = fields.Many2one('stock.move', string="Stock Move", readonly=True)
+    stock_picking_id = fields.Many2one('stock.picking', string="Stock Picking", readonly=True)
 
     @api.depends('type')
     def _calculate_type2(self):
