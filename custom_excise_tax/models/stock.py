@@ -8,46 +8,50 @@ class stock_location_inherit(models.Model):
     is_excise_depot = fields.Boolean("Is excise depot")
     bonded_warehouse_number = fields.Char("Bonded warehouse number")
 
-class stock_move_inherit(models.Model):
-    _inherit = 'stock.move'
+class stock_picking_inherit(models.Model):
+    _inherit = 'stock.picking'
 
-    def _action_done(self, cancel_backorder=False):
-        res = super(stock_move_inherit, self)._action_done(cancel_backorder)
+    def action_done(self, cancel_backorder=False):
+        res = super(stock_picking_inherit, self).action_done(cancel_backorder) #TODO check params
 
-        for move in self:
-            if move.state == 'done' and move.product_id:
-                if not move.location_id.is_excise_depot and move.location_dest_id.is_excise_depot:
+        for picking in self:
+            if picking.state == 'done': #TODO check state done exists
+                #move_ids or move_lines?
+                moves_in = picking.move_lines.filtered(lambda m: m.product_id and not m.location_id.is_excise_depot and m.location_dest_id.is_excise_depot)
+                moves_out = picking.move_lines.filtered(lambda m: m.product_id and m.location_id.is_excise_depot and not m.location_dest_id.is_excise_depot)
+            
+                if any(moves_in):
 
                     self.env['excise.register'].create({
                         'type': 'in',
-                        'stock_move_id': move.id,
-                        'purchase_order_id': move.picking_id.purchase_id.id if move.picking_id.purchase_id else None,
+                        'stock_picking_id': picking.id,
+                        'purchase_order_id': picking.purchase_id.id if picking.purchase_id else None,
                         #TODO quantities
-                        'amount_ethylalcohol_vol': move.product_id.alcohol_volume * move.product_qty if move.product_id.excise_product_code == 'S200' else 0,
-                        'amount_ethylalcohol_real': move.product_id.alcohol_volume * move.product_qty if move.product_id.excise_product_code == 'S200' else 0,
-                        'amount_ethylalcohol_100vol': move.product_id.alcohol_volume * move.product_qty if move.product_id.excise_product_code == 'S200' else 0,
-                        'amount_sparkling_wine': move.product_id.alcohol_volume * move.product_qty if move.product_id.excise_product_code == 'W300' else 0,
-                        'amount_still_wine': move.product_id.alcohol_volume * move.product_qty if move.product_id.excise_product_code == 'W200' else 0,
-                        'amount_intermediate_vol': move.product_id.alcohol_volume * move.product_qty if move.product_id.excise_product_code == '9999' else 0,
-                        'amount_intermediate_real': move.product_id.alcohol_volume * move.product_qty if move.product_id.excise_product_code == '9999' else 0,
-                        'amount_intermediate_100vol': move.product_id.alcohol_volume * move.product_qty if move.product_id.excise_product_code == '9999' else 0,
+                        'amount_ethylalcohol_vol': sum(move.product_id.alcohol_volume * move.product_qty for move in moves_id.filtered(lambda m: m.product_id.excise_product_code == 'S200')),
+                        'amount_ethylalcohol_real': sum(move.product_id.alcohol_volume * move.product_qty for move in moves_id.filtered(lambda m: m.product_id.excise_product_code == 'S200')),
+                        'amount_ethylalcohol_100vol': sum(move.product_id.alcohol_volume * move.product_qty for move in moves_id.filtered(lambda m: m.product_id.excise_product_code == 'S200')),
+                        'amount_sparkling_wine': sum(move.product_id.alcohol_volume * move.product_qty for move in moves_id.filtered(lambda m: m.product_id.excise_product_code == 'W300')),
+                        'amount_still_wine': sum(move.product_id.alcohol_volume * move.product_qty for move in moves_id.filtered(lambda m: m.product_id.excise_product_code == 'W200')),
+                        'amount_intermediate_vol': sum(move.product_id.alcohol_volume * move.product_qty for move in moves_id.filtered(lambda m: m.product_id.excise_product_code == '1234')),
+                        'amount_intermediate_real': sum(move.product_id.alcohol_volume * move.product_qty for move in moves_id.filtered(lambda m: m.product_id.excise_product_code == '1234')),
+                        'amount_intermediate_100vol': sum(move.product_id.alcohol_volume * move.product_qty for move in moves_id.filtered(lambda m: m.product_id.excise_product_code == '1234')),
                     })
 
-                elif move.location_id.is_excise_depot and not move.location_dest_id.is_excise_depot:
+                elif any(moves_out):
 
                     self.env['excise.register'].create({
                         'type': 'out',
-                        'stock_move_id': move,
-                        'sale_order_id': move.picking_id.sale_id.id if move.picking_id.sale_id else None,
+                        'stock_picking_id': picking.id,
+                        'sale_order_id': picking.sale_id.id if picking.sale_id else None,
                         #TODO quantities
-                        'amount_ethylalcohol_vol': move.product_id.alcohol_volume * move.product_qty if move.product_id.excise_product_code == 'S200' else 0,
-                        'amount_ethylalcohol_real': move.product_id.alcohol_volume * move.product_qty if move.product_id.excise_product_code == 'S200' else 0,
-                        'amount_ethylalcohol_100vol': move.product_id.alcohol_volume * move.product_qty if move.product_id.excise_product_code == 'S200' else 0,
-                        'amount_sparkling_wine': move.product_id.alcohol_volume * move.product_qty if move.product_id.excise_product_code == 'W300' else 0,
-                        'amount_still_wine': move.product_id.alcohol_volume * move.product_qty if move.product_id.excise_product_code == 'W200' else 0,
-                        'amount_intermediate_vol': move.product_id.alcohol_volume * move.product_qty if move.product_id.excise_product_code == '9999' else 0,
-                        'amount_intermediate_real': move.product_id.alcohol_volume * move.product_qty if move.product_id.excise_product_code == '9999' else 0,
-                        'amount_intermediate_100vol': move.product_id.alcohol_volume * move.product_qty if move.product_id.excise_product_code == '9999' else 0,
+                        'amount_ethylalcohol_vol': sum(move.product_id.alcohol_volume * move.product_qty for move in moves_id.filtered(lambda m: m.product_id.excise_product_code == 'S200')),
+                        'amount_ethylalcohol_real': sum(move.product_id.alcohol_volume * move.product_qty for move in moves_id.filtered(lambda m: m.product_id.excise_product_code == 'S200')),
+                        'amount_ethylalcohol_100vol': sum(move.product_id.alcohol_volume * move.product_qty for move in moves_id.filtered(lambda m: m.product_id.excise_product_code == 'S200')),
+                        'amount_sparkling_wine': sum(move.product_id.alcohol_volume * move.product_qty for move in moves_id.filtered(lambda m: m.product_id.excise_product_code == 'W300')),
+                        'amount_still_wine': sum(move.product_id.alcohol_volume * move.product_qty for move in moves_id.filtered(lambda m: m.product_id.excise_product_code == 'W200')),
+                        'amount_intermediate_vol': sum(move.product_id.alcohol_volume * move.product_qty for move in moves_id.filtered(lambda m: m.product_id.excise_product_code == '1234')),
+                        'amount_intermediate_real': sum(move.product_id.alcohol_volume * move.product_qty for move in moves_id.filtered(lambda m: m.product_id.excise_product_code == '1234')),
+                        'amount_intermediate_100vol': sum(move.product_id.alcohol_volume * move.product_qty for move in moves_id.filtered(lambda m: m.product_id.excise_product_code == '1234')),
                     })
 
         return res
