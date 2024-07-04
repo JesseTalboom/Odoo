@@ -46,7 +46,7 @@
                             <group>
                                 <field name="sale_order_id"/>
                                 <field name="purchase_order_id"/>
-                                <field name="stock_move_id"/>
+                                <field name="stock_picking_id"/>
                             </group>
                         </page>
                     </notebook>
