@@ -6,7 +6,7 @@ class ExciseRegister(models.Model):
     _name = 'excise.register'
     _description = 'Excise Register'
 
-    date = fields.Datetime("Create Date", default=fields.Datetime.now)
+    date = fields.Datetime("Create Date", default=fields.Datetime.now, readonly=True)
 
     type = fields.Selection([('in', 'In'), ('out', 'Out')], string="Type")
     type2 = fields.Selection([('ead', 'EAD'), ('ac4', 'AC4')], string="EAD/AC4", readonly=True, compute='_calculate_type2')
