@@ -14,13 +14,14 @@
                                 <span><field name="volume_uom_name"/></span>
                             </div>
                             <field name="alcohol_volume"/>
+                            <field name="box_33"/>
                             <field name="gn_code"/>
-                            <field name="excise_product_code"/>
                         </group>
                         <group>
-                            <field name="excise_price"/>
-                            <field name="eco_tax"/>
-                            <field name="cost_price_excise_excl"/>
+                            <field name="excise_tax"/>
+                            <field name="special_excise_tax"/>
+                            <field name="packaging_tax"/>
+                            <field name="cost_price_excise_taxes_excl"/>
                         </group>
                     </group>
                 </page>
