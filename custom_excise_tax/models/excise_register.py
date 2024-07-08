@@ -14,23 +14,28 @@ class ExciseRegister(models.Model):
     date_ead = fields.Date("Date EAD")
     number_ead = fields.Char("Number EAD")
 
-    amount_ethylalcohol_vol = fields.Integer("Amount Ethylalcohol S200 (% vol)")
-    amount_ethylalcohol_real = fields.Integer("Amount Ethylalcohol S200 (real)")
-    amount_ethylalcohol_100vol = fields.Integer("Amount Ethylalcohol S200 (100% vol)")
+    amount_ethylalcohol_vol = fields.Char("Amount Ethylalcohol S200 (% vol)")
+    amount_ethylalcohol_real = fields.Float("Amount Ethylalcohol S200 (real)")
+    amount_ethylalcohol_100vol = fields.Float("Amount Ethylalcohol S200 (100% vol)")
 
-    amount_sparkling_wine = fields.Integer("Amount Sparkling Wine")
-    amount_still_wine = fields.Integer("Amount Still Wine")
+    amount_sparkling_wine = fields.Float("Amount Sparkling Wine")
+    amount_still_wine = fields.Float("Amount Still Wine")
 
-    amount_intermediate_vol = fields.Integer("Amount Intermediate (% vol)")
-    amount_intermediate_real = fields.Integer("Amount Intermediate(real)")
-    amount_intermediate_100vol = fields.Integer("Amount Intermediate (100% vol)")
+    amount_intermediate_vol = fields.Char("Amount Intermediate (% vol)")
+    amount_intermediate_real = fields.Float("Amount Intermediate (real)")
+    amount_intermediate_100vol = fields.Float("Amount Intermediate (100% vol)")
 
-    total = fields.Integer(string='Total', store=True, readonly=True, compute='_calculate_totals')
+    # total_ethylalcohol_real = fields.Integer(string='Total Ethylalcohol (real)', store=True, readonly=True, compute='_calculate_totals')
+    # total_ethylalcohol_100vol = fields.Integer(string='Total Ethylalcohol (100% vol)', store=True, readonly=True, compute='_calculate_totals')
+    # total_sparkling_wine_real = fields.Integer(string='Total Sparkling Wine', store=True, readonly=True, compute='_calculate_totals')
+    # total_still_wine = fields.Integer(string='Total Still Wine', store=True, readonly=True, compute='_calculate_totals')
+    # total_intermediate_real = fields.Integer(string='Total Intermediate (real)', store=True, readonly=True, compute='_calculate_totals')
+    # total_intermediate_100vol = fields.Integer(string='Total Intermediate (100% vol)', store=True, readonly=True, compute='_calculate_totals')
 
     sale_order_id = fields.Many2one('sale.order', string="Sale Order", readonly=True)
     purchase_order_id = fields.Many2one('purchase.order', string="Purchase Order", readonly=True)
     stock_picking_id = fields.Many2one('stock.picking', string="Stock Picking", readonly=True)
-    product_ids = fields.One2many('product.product', 'excise_register_id', string="Products", readonly=True)
+    stock_move_ids = fields.One2many('stock.move', 'excise_register_id', string="Stock Moves", readonly=True)
 
     @api.depends('type')
     def _calculate_type2(self):
@@ -44,11 +49,11 @@ class ExciseRegister(models.Model):
                     s.type2 = 'ac4'
 
 
-    @api.depends('amount_ethylalcohol_vol','amount_ethylalcohol_real','amount_ethylalcohol_100vol','amount_sparkling_wine','amount_still_wine','amount_intermediate_vol','amount_intermediate_real','amount_intermediate_100vol')
-    def _calculate_totals(self):
-        for s in self:
-            s.total = s.amount_ethylalcohol_vol + s.amount_ethylalcohol_real #TODO
-
+    # @api.depends('amount_ethylalcohol_vol','amount_ethylalcohol_real','amount_ethylalcohol_100vol','amount_sparkling_wine','amount_still_wine','amount_intermediate_vol','amount_intermediate_real','amount_intermediate_100vol')
+    # def _calculate_totals(self):
+    #     for s in self:
+    #         s.total = s.amount_ethylalcohol_vol + s.amount_ethylalcohol_real #TODO
+    #
 
 
 

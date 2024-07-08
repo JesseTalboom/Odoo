@@ -2,15 +2,10 @@
 
 from odoo import models, fields, api
 
-class product_product_inherit(models.Model):
-    _inherit = 'product.product'
-
-    excise_register_id = fields.Many2one('excise.register', string="Excise Register")
-
 class product_template_inherit(models.Model):
     _inherit = 'product.template'
 
-    alcohol_volume = fields.Integer("Alcohol Vol. (%)")
+    alcohol_volume = fields.Float("Alcohol Vol. (%)")
     # gn_code = fields.Selection(selection='_available_gn_codes', string="GN Code")
     gn_code = fields.Char(compute='_calculate_gn_code', string="GN Code", readonly=True)
     box_33 = fields.Selection(selection='_available_box_33_codes', string="Box 33")
