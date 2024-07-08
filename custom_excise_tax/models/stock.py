@@ -40,38 +40,23 @@ class stock_picking_inherit(models.Model):
                 moves_out = picking.move_ids.filtered(lambda m: m.product_id and m.product_id.gn_code and m.location_id.is_excise_depot and not m.location_dest_id.is_excise_depot)
             
                 if any(moves_in):
-                    ethylalcohol_vol = {move.product_id.alcohol_volume for move in moves_in.filtered(lambda m: m.product_id.gn_code == '2208')}
-
-                    self.env['excise.register'].create({
+                    excise_register = self.env['excise.register'].create({
                         'type': 'in',
                         'stock_picking_id': picking.id,
                         'purchase_order_id': picking.purchase_id.id if picking.purchase_id else None,
                         'stock_move_ids': [(6, 0, [move.id for move in moves_in])],
-                        'amount_ethylalcohol_vol': ethylalcohol_vol.pop() if len(ethylalcohol_vol) == 1 else "div.",
-                        'amount_ethylalcohol_real': sum(move.product_id.volume * move.product_qty for move in moves_in.filtered(lambda m: m.product_id.gn_code == '2208')),
-                        'amount_ethylalcohol_100vol': sum(move.product_id.volume * (move.product_id.alcohol_volume/100) * move.product_qty for move in moves_in.filtered(lambda m: m.product_id.gn_code == '2208')),
-                        'amount_sparkling_wine': sum(move.product_id.volume * move.product_qty for move in moves_in.filtered(lambda m: m.product_id.gn_code == '2204 10')),
-                        'amount_still_wine': sum(move.product_id.volume * move.product_qty for move in moves_in.filtered(lambda m: m.product_id.gn_code == '2204 21')),
-                        'amount_intermediate_vol': sum(move.product_id.alcohol_volume * move.product_qty for move in moves_in.filtered(lambda m: m.product_id.gn_code == '2204')),
-                        'amount_intermediate_real': sum(move.product_id.volume * move.product_qty for move in moves_in.filtered(lambda m: m.product_id.gn_code == '2204')),
-                        'amount_intermediate_100vol': sum(move.product_id.volume * (move.product_id.alcohol_volume/100) * move.product_qty for move in moves_in.filtered(lambda m: m.product_id.gn_code == '2204')),
                     })
 
+                    excise_register._calculate_amounts()
+
                 elif any(moves_out):
-                    ethylalcohol_vol = {move.product_id.alcohol_volume for move in moves_out.filtered(lambda m: m.product_id.gn_code == '2208')}
-                    self.env['excise.register'].create({
+                    excise_register = self.env['excise.register'].create({
                         'type': 'out',
                         'stock_picking_id': picking.id,
                         'sale_order_id': picking.sale_id.id if picking.sale_id else None,
                         'stock_move_ids': [(6, 0, [move.id for move in moves_out])],
-                        'amount_ethylalcohol_vol': ethylalcohol_vol.pop() if len(ethylalcohol_vol) == 1 else "div.",
-                        'amount_ethylalcohol_real': sum(move.product_id.volume * move.product_qty for move in moves_out.filtered(lambda m: m.product_id.gn_code == '2208')),
-                        'amount_ethylalcohol_100vol': sum(move.product_id.volume * (move.product_id.alcohol_volume/100) * move.product_qty for move in moves_out.filtered(lambda m: m.product_id.gn_code == '2208')),
-                        'amount_sparkling_wine': sum(move.product_id.volume * move.product_qty for move in moves_out.filtered(lambda m: m.product_id.gn_code == '2204 10')),
-                        'amount_still_wine': sum(move.product_id.volume * move.product_qty for move in moves_out.filtered(lambda m: m.product_id.gn_code == '2204 21')),
-                        'amount_intermediate_vol': sum(move.product_id.alcohol_volume * move.product_qty for move in moves_out.filtered(lambda m: m.product_id.gn_code == '2204')),
-                        'amount_intermediate_real': sum(move.product_id.volume * move.product_qty for move in moves_out.filtered(lambda m: m.product_id.gn_code == '2204')),
-                        'amount_intermediate_100vol': sum(move.product_id.volume * (move.product_id.alcohol_volume/100) * move.product_qty for move in moves_out.filtered(lambda m: m.product_id.gn_code == '2204')),
                     })
+
+                    excise_register._calculate_amounts()
 
         return res

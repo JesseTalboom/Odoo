@@ -25,6 +25,10 @@ class ExciseRegister(models.Model):
     amount_intermediate_real = fields.Float("Amount Intermediate (real)")
     amount_intermediate_100vol = fields.Float("Amount Intermediate (100% vol)")
 
+    amount_beer_vol = fields.Char("Amount Beer (% vol)")
+    amount_beer_real = fields.Float("Amount Beer (real)")
+    amount_beer_100vol = fields.Float("Amount Beer (100% vol)")
+
     # total_ethylalcohol_real = fields.Integer(string='Total Ethylalcohol (real)', store=True, readonly=True, compute='_calculate_totals')
     # total_ethylalcohol_100vol = fields.Integer(string='Total Ethylalcohol (100% vol)', store=True, readonly=True, compute='_calculate_totals')
     # total_sparkling_wine_real = fields.Integer(string='Total Sparkling Wine', store=True, readonly=True, compute='_calculate_totals')
@@ -48,6 +52,23 @@ class ExciseRegister(models.Model):
                 else:
                     s.type2 = 'ac4'
 
+    def _calculate_amounts(self):
+        for s in self:
+            ethylalcohol_vol = {move.product_id.alcohol_volume for move in s.stock_move_ids.filtered(lambda m: m.product_id.product_tmpl_id._is_ethylalcohol())}
+            intermediate_vol = {move.product_id.alcohol_volume for move in s.stock_move_ids.filtered(lambda m: m.product_id.product_tmpl_id._is_intermediate())}
+            beer_vol = {move.product_id.alcohol_volume for move in s.stock_move_ids.filtered(lambda m: m.product_id.product_tmpl_id._is_beer())}
+
+            s.amount_ethylalcohol_vol = ethylalcohol_vol.pop() if len(ethylalcohol_vol) == 1 else ("" if len(ethylalcohol_vol) == 0 else "div.")
+            s.amount_ethylalcohol_real = sum(move.product_id.volume * move.product_qty for move in s.stock_move_ids.filtered(lambda m: m.product_id.product_tmpl_id._is_ethylalcohol()))
+            s.amount_ethylalcohol_100vol = sum(move.product_id.volume * (move.product_id.alcohol_volume / 100) * move.product_qty for move in s.stock_move_ids.filtered(lambda m: m.product_id.product_tmpl_id._is_ethylalcohol()))
+            s.amount_sparkling_wine = sum(move.product_id.volume * move.product_qty for move in s.stock_move_ids.filtered(lambda m: m.product_id.product_tmpl_id._is_sparkling_wine()))
+            s.amount_still_wine = sum(move.product_id.volume * move.product_qty for move in s.stock_move_ids.filtered(lambda m: m.product_id.product_tmpl_id._is_still_wine()))
+            s.amount_intermediate_vol = intermediate_vol.pop() if len(intermediate_vol) == 1 else "div."
+            s.amount_intermediate_real = sum(move.product_id.volume * move.product_qty for move in s.stock_move_ids.filtered(lambda m: m.product_id.product_tmpl_id._is_intermediate()))
+            s.amount_intermediate_100vol = sum(move.product_id.volume * (move.product_id.alcohol_volume / 100) * move.product_qty for move in s.stock_move_ids.filtered(lambda m: m.product_id.product_tmpl_id._is_intermediate()))
+            s.amount_beer_vol = beer_vol.pop() if len(beer_vol) == 1 else "div."
+            s.amount_beer_real = sum(move.product_id.volume * move.product_qty for move in s.stock_move_ids.filtered(lambda m: m.product_id.product_tmpl_id._is_beer()))
+            s.amount_beer_100vol = sum(move.product_id.volume * (move.product_id.alcohol_volume / 100) * move.product_qty for move in s.stock_move_ids.filtered(lambda m: m.product_id.product_tmpl_id._is_beer()))
 
     # @api.depends('amount_ethylalcohol_vol','amount_ethylalcohol_real','amount_ethylalcohol_100vol','amount_sparkling_wine','amount_still_wine','amount_intermediate_vol','amount_intermediate_real','amount_intermediate_100vol')
     # def _calculate_totals(self):
