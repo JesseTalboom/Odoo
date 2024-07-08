@@ -6,6 +6,7 @@ class product_template_inherit(models.Model):
     _inherit = 'product.template'
 
     alcohol_volume = fields.Float("Alcohol Vol. (%)")
+    alcohol_100_volume = fields.Float(compute='_calculate_alcohol_100_volume', string="Alcohol Vol. (real)")
     # gn_code = fields.Selection(selection='_available_gn_codes', string="GN Code")
     gn_code = fields.Char(compute='_calculate_gn_code', string="GN Code", readonly=True)
     box_33 = fields.Selection(selection='_available_box_33_codes', string="Box 33")
@@ -13,6 +14,10 @@ class product_template_inherit(models.Model):
     special_excise_tax = fields.Float(string='Special Excise Price (€/HL)', digits=(12, 4), store=True, readonly=True, compute='_calculate_taxes')
     packaging_tax = fields.Float(string='Packaging Tax (€/HL)', digits=(12, 4), store=True, readonly=True, compute='_calculate_taxes')
     cost_price_excise_taxes_excl = fields.Monetary(string='Cost price (excise taxes excl.)', store=True, readonly=True, compute='_calculate_taxes')
+
+    def _calculate_alcohol_100_volume(self):
+        for product in self:
+            product.alcohol_100_volume = product.volume * (product.alcohol_volume / 100)
 
     def _available_gn_codes(self):
         return [
@@ -73,9 +78,9 @@ class product_template_inherit(models.Model):
 
             # Liquer and others (use Alcohol Volume)
             if product.box_33 == 'S301' or product.box_33 == 'S411':
-                product.excise_tax = product.alcohol_volume_in_hectoliter() * product._get_excise_tax()
-                product.special_excise_tax = product.alcohol_volume_in_hectoliter() * product._get_special_excise_tax()
-                product.packaging_tax = product.alcohol_volume_in_hectoliter() * product._get_packaging_tax()
+                product.excise_tax = product.alcohol_100_volume_in_hectoliter() * product._get_excise_tax()
+                product.special_excise_tax = product.alcohol_100_volume_in_hectoliter() * product._get_special_excise_tax()
+                product.packaging_tax = product.alcohol_100_volume_in_hectoliter() * product._get_packaging_tax()
 
             total_taxes = product.excise_tax + product.special_excise_tax + product.packaging_tax
 
@@ -84,8 +89,8 @@ class product_template_inherit(models.Model):
     def volume_in_hectoliter(self):
         return self.volume / 100
 
-    def alcohol_volume_in_hectoliter(self):
-        return (self.volume * (self.alcohol_volume / 100)) / 100
+    def alcohol_100_volume_in_hectoliter(self):
+        return self.alcohol_100_volume / 100
 
     # price per HL
     def _get_excise_tax(self):
