@@ -14,6 +14,7 @@
                                 <span><field name="volume_uom_name"/></span>
                             </div>
                             <field name="alcohol_volume"/>
+                            <field name="degrees_plato"/>
                             <field name="box_33"/>
                             <field name="gn_code"/>
                         </group>

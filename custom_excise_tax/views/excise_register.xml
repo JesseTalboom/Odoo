@@ -60,13 +60,13 @@
                                     </div>
                                 </group>
                                 <group name="beer" string="Beer">
-                                    <field name="amount_beer_vol" string="Amount plato"/>
+                                    <field name="amount_beer_vol" string="Amount °P"/>
                                     <label for="amount_beer_real" string="Amount real"/>
                                     <div class="o_row">
                                         <field name="amount_beer_real" class="oe_inline"/>
                                         <span>L</span>
                                     </div>
-                                    <label for="amount_beer_100vol" string="Amount 100%vol"/>
+                                    <label for="amount_beer_100vol" string="Amount °P vol"/>
                                     <div class="o_row">
                                         <field name="amount_beer_100vol" class="oe_inline"/>
                                         <span>L</span>

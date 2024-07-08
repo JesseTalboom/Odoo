@@ -5,7 +5,8 @@ from odoo import models, fields, api
 class product_template_inherit(models.Model):
     _inherit = 'product.template'
 
-    alcohol_volume = fields.Float("Alcohol Vol. (% / Plato)")
+    alcohol_volume = fields.Float("Alcohol Vol. (%)")
+    degrees_plato = fields.Float("Degrees Plato (°P)")
     alcohol_100_volume = fields.Float(compute='_calculate_alcohol_100_volume', string="Alcohol Vol. (real)")
     # gn_code = fields.Selection(selection='_available_gn_codes', string="GN Code")
     gn_code = fields.Char(compute='_calculate_gn_code', string="GN Code", readonly=True)
@@ -79,15 +80,15 @@ class product_template_inherit(models.Model):
 
         return default
 
-    @api.depends('alcohol_volume', 'volume', 'box_33', 'standard_price')
+    @api.depends('alcohol_volume', 'volume', 'degrees_plato', 'box_33', 'standard_price')
     def _calculate_taxes(self):
         for product in self:
 
             # Beer
             if product.box_33 == 'S001' or product.box_33 == 'S002' or product.box_33 == 'S024':
-                product.excise_tax = product.alcohol_100_volume_in_hectoliter() * product._get_excise_tax()
-                product.special_excise_tax = product.alcohol_100_volume_in_hectoliter() * product._get_special_excise_tax()
-                product.packaging_tax = product.alcohol_100_volume_in_hectoliter() * product._get_packaging_tax()
+                product.excise_tax = product.degrees_plato_volume_in_hectoliter() * product._get_excise_tax()
+                product.special_excise_tax = product.degrees_plato_volume_in_hectoliter() * product._get_special_excise_tax()
+                product.packaging_tax = product.degrees_plato_volume_in_hectoliter() * product._get_packaging_tax()
 
             # Wine (use Volume)
             if product.box_33 == 'S101' or product.box_33 == 'S109' or product.box_33 == 'S125':
@@ -110,6 +111,9 @@ class product_template_inherit(models.Model):
 
     def alcohol_100_volume_in_hectoliter(self):
         return self.alcohol_100_volume / 100
+
+    def degrees_plato_volume_in_hectoliter(self):
+        return self.volume_in_hectoliter() * self.degrees_plato
 
     # price per HL
     def _get_excise_tax(self):

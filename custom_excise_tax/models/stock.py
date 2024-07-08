@@ -7,7 +7,7 @@ class stock_quant_inherit(models.Model):
 
     # Fields needed to show in Tree
     product_volume = fields.Float(related='product_id.product_tmpl_id.volume', store=True, readonly=True, string="Volume (L)")
-    product_alcohol_volume = fields.Float(related='product_id.product_tmpl_id.alcohol_volume', store=True, readonly=True, string="Alcohol Vol. (%)")
+    product_alcohol_volume = fields.Float(related='product_id.product_tmpl_id.alcohol_volume', store=True, readonly=True, string="Alcohol Vol. (%) / °P")
     product_alcohol_100_volume = fields.Float(related='product_id.product_tmpl_id.alcohol_100_volume', store=True, readonly=True, string="Alcohol Vol. (real)")
 
 class stock_move_inherit(models.Model):
