@@ -1,4 +1,16 @@
 <odoo>
+
+    <record id="view_excise_register_filter" model="ir.ui.view">
+        <field name="name">excise.register.search</field>
+        <field name="model">excise.register</field>
+        <field name="arch" type="xml">
+            <search string="Search Excise Register">
+                <filter string="In" domain="[('type', '=', 'in')]" name="in"/>
+                <filter string="Out" domain="[('type', '=', 'out')]" name="out"/>
+            </search>
+        </field>
+    </record>
+
     <record id="view_excise_register_form" model="ir.ui.view">
         <field name="name">excise.register.form</field>
         <field name="model">excise.register</field>
