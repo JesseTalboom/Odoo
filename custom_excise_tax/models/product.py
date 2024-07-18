@@ -7,7 +7,7 @@ class product_template_inherit(models.Model):
 
     alcohol_volume = fields.Float("Alcohol Vol. (%)")
     degrees_plato = fields.Float("Degrees Plato (°P)")
-    alcohol_100_volume = fields.Float(compute='_calculate_alcohol_100_volume', string="Alcohol Vol. (real)")
+    alcohol_100_volume = fields.Float(compute='_calculate_alcohol_100_volume', string="Alcohol Vol. (real)", readonly=True)
     # gn_code = fields.Selection(selection='_available_gn_codes', string="GN Code")
     gn_code = fields.Char(compute='_calculate_gn_code', string="GN Code", readonly=True)
     box_33 = fields.Selection(selection='_available_box_33_codes', string="Box 33")
