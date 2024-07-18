@@ -18,6 +18,7 @@ class product_pricelist_item_inherit(models.Model):
         help="Base price for computation.\n"
              "Sales Price: The base price will be the Sales Price.\n"
              "Cost Price : The base price will be the cost price.\n"
+             "Cost Price (excise taxes excl.) : The base price will be the cost price excises excluded.\n"
              "Other Pricelist : Computation of the base price based on another Pricelist.")
 
     def _compute_base_price(self, product, quantity, uom, date, target_currency):
