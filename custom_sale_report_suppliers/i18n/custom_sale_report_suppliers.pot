@@ -1,0 +1,31 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* custom_sale_report_suppliers
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-07-18 08:50+0000\n"
+"PO-Revision-Date: 2024-07-18 08:50+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: custom_sale_report_suppliers
+#: model_terms:ir.ui.view,arch_db:custom_sale_report_suppliers.view_order_product_search
+msgid "Products supplied by"
+msgstr ""
+
+#. module: custom_sale_report_suppliers
+#: model:ir.model,name:custom_sale_report_suppliers.model_sale_report
+msgid "Sales Analysis Report"
+msgstr "Verkoopanalyserapport"
+
+#. module: custom_sale_report_suppliers
+#: model:ir.model.fields,field_description:custom_sale_report_suppliers.field_sale_report__seller_id
+msgid "Vendor"
+msgstr ""
