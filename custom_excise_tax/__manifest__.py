@@ -28,6 +28,7 @@
         'views/product.xml',
         'views/stock.xml',
         'views/excise_register.xml',
+        'views/res_partner.xml',
     ],
     'assets': {
     },
