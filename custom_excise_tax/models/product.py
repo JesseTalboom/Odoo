@@ -14,7 +14,7 @@ class product_template_inherit(models.Model):
     excise_tax = fields.Float(string='Excise Price (€/HL)', digits=(12, 4), store=True, readonly=True, compute='_calculate_taxes')
     special_excise_tax = fields.Float(string='Special Excise Price (€/HL)', digits=(12, 4), store=True, readonly=True, compute='_calculate_taxes')
     packaging_tax = fields.Float(string='Packaging Tax (€/HL)', digits=(12, 4), store=True, readonly=True, compute='_calculate_taxes')
-    cost_price_excise_taxes_excl = fields.Monetary(string='Cost price (excise taxes excl.)', store=True, readonly=True, compute='_calculate_taxes')
+    cost_price_excise_taxes_excl = fields.Monetary(string='Cost price (excise taxes excl.)')
 
     def _calculate_alcohol_100_volume(self):
         for product in self:
@@ -105,6 +105,12 @@ class product_template_inherit(models.Model):
             total_taxes = product.excise_tax + product.special_excise_tax + product.packaging_tax
 
             product.cost_price_excise_taxes_excl = product.standard_price - total_taxes if product.standard_price > total_taxes else 0
+
+    def update_standard_price(self):
+        for product in self:
+            total_taxes = product.excise_tax + product.special_excise_tax + product.packaging_tax
+
+            product.standard_price = product.cost_price_excise_taxes_excl + total_taxes
 
     def volume_in_hectoliter(self):
         return self.volume / 100

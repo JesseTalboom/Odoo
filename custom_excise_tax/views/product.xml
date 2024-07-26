@@ -23,7 +23,11 @@
                             <field name="excise_tax"/>
                             <field name="special_excise_tax"/>
                             <field name="packaging_tax"/>
-                            <field name="cost_price_excise_taxes_excl"/>
+                            <label for="cost_price_excise_taxes_excl"/>
+                            <div class="o_row">
+                                <field name="cost_price_excise_taxes_excl" />
+                                <button name="update_standard_price" type="object" string=" Update Cost Price" class="btn-link mb-1 px-0" icon="fa-refresh" attrs="{'invisible': [('cost_price_excise_taxes_excl', '=', 0)]}"/>
+                            </div>
                         </group>
                     </group>
                 </page>
