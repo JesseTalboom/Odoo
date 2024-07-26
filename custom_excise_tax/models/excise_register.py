@@ -70,12 +70,6 @@ class ExciseRegister(models.Model):
             s.amount_beer_real = sum(move.product_id.volume * move.product_qty for move in s.stock_move_ids.filtered(lambda m: m.product_id.product_tmpl_id._is_beer()))
             s.amount_beer_100vol = sum(move.product_id.volume * (move.product_id.degrees_plato) * move.product_qty for move in s.stock_move_ids.filtered(lambda m: m.product_id.product_tmpl_id._is_beer()))
 
-    # @api.depends('amount_ethylalcohol_vol','amount_ethylalcohol_real','amount_ethylalcohol_100vol','amount_sparkling_wine','amount_still_wine','amount_intermediate_vol','amount_intermediate_real','amount_intermediate_100vol')
-    # def _calculate_totals(self):
-    #     for s in self:
-    #         s.total = s.amount_ethylalcohol_vol + s.amount_ethylalcohol_real #TODO
-    #
-
 
 
 

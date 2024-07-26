@@ -31,6 +31,27 @@ class stock_location_inherit(models.Model):
 class stock_picking_inherit(models.Model):
     _inherit = 'stock.picking'
 
+    excise_register_id = fields.Many2one("excise.register")
+
+    excise_register_count = fields.Integer("Number of Excise Registers", compute='_compute_excise_register_count')
+
+    def _compute_excise_register_count(self):
+        for record in self:
+            if record.excise_register_id:
+                record.excise_register_count = 1
+            else:
+                record.excise_register_count = 0
+
+    def action_view_excise_register(self):
+        self.ensure_one()
+        if self.excise_register_id:
+            return {
+                'res_model': 'excise.register',
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'res_id': self.excise_register_id.id,
+            }
+
     def _action_done(self):
         res = super(stock_picking_inherit, self)._action_done()
 
@@ -49,6 +70,8 @@ class stock_picking_inherit(models.Model):
 
                     excise_register._calculate_amounts()
 
+                    self.excise_register_id = excise_register.id
+
                 elif any(moves_out):
                     excise_register = self.env['excise.register'].create({
                         'type': 'out',
@@ -58,5 +81,7 @@ class stock_picking_inherit(models.Model):
                     })
 
                     excise_register._calculate_amounts()
+
+                    self.excise_register_id = excise_register.id
 
         return res

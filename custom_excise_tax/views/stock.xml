@@ -1,4 +1,23 @@
 <odoo>
+
+    <record model="ir.ui.view" id="view_stock_picking_form_custom">
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_picking_move_tree']" position="before">
+                <field name="excise_register_id" invisible="1"/>
+                <button type="object"
+                        name="action_view_excise_register"
+                        class="oe_stat_button"
+                        icon="fa-file-o"
+                        string="Excise Register"
+                        attrs="{'invisible': [('excise_register_count', '=', 0)]}">
+                        <field name="excise_register_count" widget="statinfo" string="Excise Register"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
     <record id="view_location_form_custom" model="ir.ui.view">
         <field name="name">stock.location.form.custom</field>
         <field name="model">stock.location</field>
