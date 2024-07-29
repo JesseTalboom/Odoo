@@ -42,7 +42,7 @@ class product_template_inherit(models.Model):
     @api.depends('gn_code')
     def _calculate_excise_category(self):
         for product in self:
-            if product.gn_code is not None:
+            if isinstance(product.gn_code, str):
                 if product.gn_code.startswith("2203"):
                     product.excise_category = "Beer"
                 elif product.gn_code.startswith("22042"):

@@ -12,5 +12,3 @@ class ExciseTax(models.Model):
     special_excise_tax = fields.Float(string='Special Excise Price (€/HL)', digits=(12, 4), required=True)
     packaging_tax = fields.Float(string='Packaging Tax (€/HL)', digits=(12, 4), required=True)
 
-
-

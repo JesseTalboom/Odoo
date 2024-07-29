@@ -33,4 +33,5 @@
     ],
     'assets': {
     },
+    'post_init_hook': 'import_excise_tax',
 }
