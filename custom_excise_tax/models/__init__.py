@@ -6,3 +6,4 @@ from . import excise_register
 from . import pricelist
 from . import res_partner
 from . import purchase
+from . import excise_tax

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+from odoo.exceptions import UserError, ValidationError
+import re
 
 class product_template_inherit(models.Model):
     _inherit = 'product.template'
@@ -8,99 +10,95 @@ class product_template_inherit(models.Model):
     alcohol_volume = fields.Float("Alcohol Vol. (%)")
     degrees_plato = fields.Float("Degrees Plato (°P)")
     alcohol_100_volume = fields.Float(compute='_calculate_alcohol_100_volume', string="Alcohol Vol. (real)", readonly=True)
-    # gn_code = fields.Selection(selection='_available_gn_codes', string="GN Code")
-    gn_code = fields.Char(compute='_calculate_gn_code', string="GN Code", readonly=True)
-    box_33 = fields.Selection(selection='_available_box_33_codes', string="Box 33")
+
+    gn_code = fields.Char(string="GN Code")
+    excise_category = fields.Char(string="Excise category", compute='_calculate_excise_category', readonly=True, store=True)
+    box_33 = fields.Many2one('excise.tax', string="Box 33")
+
     excise_tax = fields.Float(string='Excise Price (€/HL)', digits=(12, 4), store=True, readonly=True, compute='_calculate_taxes')
     special_excise_tax = fields.Float(string='Special Excise Price (€/HL)', digits=(12, 4), store=True, readonly=True, compute='_calculate_taxes')
     packaging_tax = fields.Float(string='Packaging Tax (€/HL)', digits=(12, 4), store=True, readonly=True, compute='_calculate_taxes')
+
     cost_price_excise_taxes_excl = fields.Monetary(string='Cost price (excise taxes excl.)')
+
+    @api.constrains('gn_code')
+    def _check_gn_code(self):
+        for record in self:
+            if record.gn_code and not re.match(r'^\d+$', record.gn_code):
+                raise ValidationError('GN Code must contain only digits.')
+
+    def _clean_gn_code(self):
+        return re.sub(r'\s+', '', self.gn_code)  # Remove all white spaces
+
+    @api.onchange("gn_code")
+    def _onchange_gn_code(self):
+        for product in self:
+            product.gn_code = product._clean_gn_code()
 
     def _calculate_alcohol_100_volume(self):
         for product in self:
             product.alcohol_100_volume = product.volume * (product.alcohol_volume / 100)
 
-    def _available_gn_codes(self):
-        return [
-            ("2203", "Beer in reusable/disposable packaging"),
-            ("2206", "Beer in disposable packaging - small independent brewery - not exceeding 200000 hl"),
-            ("2204 21", "Still wines in disposable packaging"),
-            ("2204 10", "Sparkling wines in disposable packaging"),
-            ("2204", "Intermediate products (still) in disposable packaging"),
-            ("2208", "Spirits, liqueurs and other drinks containing distilled alcohol"),
-        ]
-
-    def _calculate_gn_code(self):
+    @api.depends('gn_code')
+    def _calculate_excise_category(self):
         for product in self:
-            if product.box_33 == "S001":
-                product.gn_code = "2203"
-            elif product.box_33 == "S002":
-                product.gn_code = "2203"
-            elif product.box_33 == "S024":
-                product.gn_code = "2206"
-            elif product.box_33 == "S101":
-                product.gn_code = "2204 21"
-            elif product.box_33 == "S109":
-                product.gn_code = "2204 10"
-            elif product.box_33 == "S125":
-                product.gn_code = "2204 10"
-            elif product.box_33 == "S301":
-                product.gn_code = "2204"
-            elif product.box_33 == "S411":
-                product.gn_code = "2208"
+            if product.gn_code is not None:
+                if product.gn_code.startswith("2203"):
+                    product.excise_category = "Beer"
+                elif product.gn_code.startswith("22042"):
+                    product.excise_category = "Still wine (W200)"
+                elif product.gn_code.startswith("22041"):
+                    product.excise_category = "Sparkling wine (W300)"
+                elif product.gn_code.startswith("2208"):
+                    product.excise_category = "Spirits (S200)"
+                #TODO
+                elif product.gn_code.startswith("TODO"):
+                    product.excise_category = "Intermediates"
+                else:
+                    product.excise_category = ""
             else:
-                product.gn_code = ""
-
-    def _is_ethylalcohol(self):
-        return self.gn_code == '2208'
-
-    def _is_sparkling_wine(self):
-        return self.gn_code == '2204 10'
-
-    def _is_still_wine(self):
-        return self.gn_code == '2204 21'
-
-    def _is_intermediate(self):
-        return self.gn_code == '2204'
+                product.excise_category = ""
 
     def _is_beer(self):
-        return self.gn_code == '2203' or self.gn_code == '2206'
+        return self.excise_category == 'Beer'
 
-    def _available_box_33_codes(self):
-        default = [
-            ("S001", "Beer in reusable/disposable packaging"),
-            ("S002", "Beer in disposable packaging"),
-            ("S024", "Beer in disposable packaging - small independent brewery - not exceeding 200000 hl"),
-            ("S101", "Still wines in disposable packaging"),
-            ("S109", "Sparkling wines in disposable packaging"),
-            ("S125", "Sparkling wines =< 8.5% in disposable packaging"),
-            ("S301", "Intermediate products (still) in disposable packaging"),
-            ("S411", "Spirits, liqueurs and other drinks containing distilled alcohol"),
-        ]
+    def _is_still_wine(self):
+        return self.excise_category == 'Still wine (W200)'
 
-        return default
+    def _is_sparkling_wine(self):
+        return self.excise_category == 'Sparkling wine (W300)'
+
+    def _is_ethylalcohol(self):
+        return self.excise_category == 'Spirits (S200)'
+
+    def _is_intermediate(self):
+        return self.excise_category == 'Intermediates'
 
     @api.depends('alcohol_volume', 'volume', 'degrees_plato', 'box_33', 'standard_price')
     def _calculate_taxes(self):
         for product in self:
-
             # Beer
-            if product.box_33 == 'S001' or product.box_33 == 'S002' or product.box_33 == 'S024':
+            if product._is_beer():
                 product.excise_tax = product.degrees_plato_volume_in_hectoliter() * product._get_excise_tax()
                 product.special_excise_tax = product.degrees_plato_volume_in_hectoliter() * product._get_special_excise_tax()
                 product.packaging_tax = product.degrees_plato_volume_in_hectoliter() * product._get_packaging_tax()
 
             # Wine (use Volume)
-            if product.box_33 == 'S101' or product.box_33 == 'S109' or product.box_33 == 'S125':
+            elif product._is_still_wine() or product._is_sparkling_wine():
                 product.excise_tax = product.volume_in_hectoliter() * product._get_excise_tax()
                 product.special_excise_tax = product.volume_in_hectoliter() * product._get_special_excise_tax()
                 product.packaging_tax = product.volume_in_hectoliter() * product._get_packaging_tax()
 
             # Liquer and others (use Alcohol Volume)
-            if product.box_33 == 'S301' or product.box_33 == 'S411':
+            elif product._is_ethylalcohol():
                 product.excise_tax = product.alcohol_100_volume_in_hectoliter() * product._get_excise_tax()
                 product.special_excise_tax = product.alcohol_100_volume_in_hectoliter() * product._get_special_excise_tax()
                 product.packaging_tax = product.alcohol_100_volume_in_hectoliter() * product._get_packaging_tax()
+
+            else:
+                product.excise_tax = 0
+                product.special_excise_tax = 0
+                product.packaging_tax = 0
 
             total_taxes = product.excise_tax + product.special_excise_tax + product.packaging_tax
 
@@ -121,59 +119,11 @@ class product_template_inherit(models.Model):
     def degrees_plato_volume_in_hectoliter(self):
         return self.volume_in_hectoliter() * self.degrees_plato
 
-    # price per HL
     def _get_excise_tax(self):
-        if self.box_33 == "S001":
-            return 0.7933
-        if self.box_33 == "S002":
-            return 0.7933
-        if self.box_33 == "S024":
-            return 0.4462
-        if self.box_33 == "S101":
-            return 0
-        if self.box_33 == "S109":
-            return 0
-        if self.box_33 == "S125":
-            return 0
-        if self.box_33 == "S301":
-            return 66.9313
-        if self.box_33 == "S411":
-            return 223.1042
+        return self.box_33.excise_tax if self.box_33 else 0
 
-    # price per HL
     def _get_special_excise_tax(self):
-        if self.box_33 == "S001":
-            return 1.2110
-        if self.box_33 == "S002":
-            return 1.2110
-        if self.box_33 == "S024":
-            return 1.5292
-        if self.box_33 == "S101":
-            return 74.9086
-        if self.box_33 == "S109":
-            return 256.3223
-        if self.box_33 == "S125":
-            return 23.9119
-        if self.box_33 == "S301":
-            return 90.8479
-        if self.box_33 == "S411":
-            return 2769.6886
+        return self.box_33.special_excise_tax if self.box_33 else 0
 
-    # price per HL
     def _get_packaging_tax(self):
-        if self.box_33 == "S001":
-            return 1.4100
-        if self.box_33 == "S002":
-            return 9.8600
-        if self.box_33 == "S024":
-            return 9.8600
-        if self.box_33 == "S101":
-            return 9.8600
-        if self.box_33 == "S109":
-            return 9.8600
-        if self.box_33 == "S125":
-            return 9.8600
-        if self.box_33 == "S301":
-            return 9.8600
-        if self.box_33 == "S411":
-            return 9.8600
+        return self.box_33.packaging_tax if self.box_33 else 0

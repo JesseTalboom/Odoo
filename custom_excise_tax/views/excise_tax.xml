@@ -1,0 +1,27 @@
+<odoo>
+
+    <record id="view_excise_tax_tree" model="ir.ui.view">
+        <field name="name">excise.tax.tree</field>
+        <field name="model">excise.tax</field>
+        <field name="arch" type="xml">
+            <tree string="Excise Taxes" editable="bottom">
+                <field name="name"/>
+                <field name="excise_tax"/>
+                <field name="special_excise_tax"/>
+                <field name="packaging_tax"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_excise_tax" model="ir.actions.act_window">
+            <field name="name">Excise taxes</field>
+            <field name="res_model">excise.tax</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_excise_tax_tree"/>
+            <field name="target">current</field>
+    </record>
+
+    <menuitem id="menu_excise_tax" name="Excise taxes" parent="stock.menu_warehouse_report" action="action_excise_tax" sequence="11"/>
+
+</odoo>

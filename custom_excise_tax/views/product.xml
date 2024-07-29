@@ -16,8 +16,9 @@
                             <field name="alcohol_volume"/>
                             <field name="alcohol_100_volume"/>
                             <field name="degrees_plato"/>
-                            <field name="box_33"/>
                             <field name="gn_code"/>
+                            <field name="excise_category"/>
+                            <field name="box_33" widget="many2one"/>
                         </group>
                         <group>
                             <field name="excise_tax"/>
