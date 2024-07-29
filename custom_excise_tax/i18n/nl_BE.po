@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-18 08:25+0000\n"
-"PO-Revision-Date: 2024-07-18 08:25+0000\n"
+"POT-Creation-Date: 2024-07-29 11:29+0000\n"
+"PO-Revision-Date: 2024-07-29 11:29+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr ""
 #. module: custom_excise_tax
 #: model:ir.model.fields.selection,name:custom_excise_tax.selection__excise_register__type2__ac4
 msgid "AC4"
-msgstr ""
+msgstr "AC4"
 
 #. module: custom_excise_tax
 #: model:ir.model.fields,field_description:custom_excise_tax.field_product_product__alcohol_volume
@@ -31,7 +31,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:custom_excise_tax.field_stock_move__product_alcohol_volume
 #: model:ir.model.fields,field_description:custom_excise_tax.field_stock_quant__product_alcohol_volume
 msgid "Alcohol Vol. (%)"
-msgstr ""
+msgstr "Alcohol Vol. (%)"
 
 #. module: custom_excise_tax
 #: model:ir.model.fields,field_description:custom_excise_tax.field_product_product__alcohol_100_volume
@@ -157,6 +157,7 @@ msgid "Bonded warehouse number"
 msgstr "Accijnsdepotnummer"
 
 #. module: custom_excise_tax
+#: model:ir.model.fields,field_description:custom_excise_tax.field_excise_tax__name
 #: model:ir.model.fields,field_description:custom_excise_tax.field_product_product__box_33
 #: model:ir.model.fields,field_description:custom_excise_tax.field_product_template__box_33
 msgid "Box 33"
@@ -166,6 +167,11 @@ msgstr ""
 #: model_terms:ir.actions.act_window,help:custom_excise_tax.action_excise_register
 msgid "Click to create a new excise register."
 msgstr "Klik om een nieuw accijnsregister aan te maken"
+
+#. module: custom_excise_tax
+#: model:ir.model,name:custom_excise_tax.model_res_partner
+msgid "Contact"
+msgstr "Contact"
 
 #. module: custom_excise_tax
 #: model:ir.model.fields.selection,name:custom_excise_tax.selection__product_pricelist_item__base__standard_price
@@ -190,11 +196,13 @@ msgstr "Aanmaakdatum"
 
 #. module: custom_excise_tax
 #: model:ir.model.fields,field_description:custom_excise_tax.field_excise_register__create_uid
+#: model:ir.model.fields,field_description:custom_excise_tax.field_excise_tax__create_uid
 msgid "Created by"
 msgstr "Aangemaakt door"
 
 #. module: custom_excise_tax
 #: model:ir.model.fields,field_description:custom_excise_tax.field_excise_register__create_date
+#: model:ir.model.fields,field_description:custom_excise_tax.field_excise_tax__create_date
 msgid "Created on"
 msgstr "Aangemaakt op"
 
@@ -210,31 +218,39 @@ msgid "Degrees Plato (°P)"
 msgstr "Graden Plato (°P)"
 
 #. module: custom_excise_tax
+#: model:ir.model.fields,field_description:custom_excise_tax.field_res_partner__picking_type_id
+#: model:ir.model.fields,field_description:custom_excise_tax.field_res_users__picking_type_id
+msgid "Deliver To"
+msgstr "Leveren aan"
+
+#. module: custom_excise_tax
 #: model_terms:ir.ui.view,arch_db:custom_excise_tax.view_excise_register_form
 msgid "Details"
-msgstr ""
+msgstr "Details"
 
 #. module: custom_excise_tax
 #: model:ir.model.fields,field_description:custom_excise_tax.field_excise_register__display_name
+#: model:ir.model.fields,field_description:custom_excise_tax.field_excise_tax__display_name
 msgid "Display Name"
 msgstr "Weergavenaam"
 
 #. module: custom_excise_tax
 #: model:ir.model.fields.selection,name:custom_excise_tax.selection__excise_register__type2__ead
 msgid "EAD"
-msgstr ""
+msgstr "EAD"
 
 #. module: custom_excise_tax
 #: model:ir.model.fields,field_description:custom_excise_tax.field_excise_register__type2
 msgid "EAD/AC4"
-msgstr ""
+msgstr "EAD/AC4"
 
 #. module: custom_excise_tax
 #: model_terms:ir.ui.view,arch_db:custom_excise_tax.view_excise_register_form
 msgid "Ethylalcohol"
-msgstr ""
+msgstr "Ethylalcohol"
 
 #. module: custom_excise_tax
+#: model:ir.model.fields,field_description:custom_excise_tax.field_excise_tax__excise_tax
 #: model:ir.model.fields,field_description:custom_excise_tax.field_product_product__excise_tax
 #: model:ir.model.fields,field_description:custom_excise_tax.field_product_template__excise_tax
 msgid "Excise Price (€/HL)"
@@ -244,8 +260,10 @@ msgstr "Accijnsprijs (€/HL)"
 #: model:ir.actions.act_window,name:custom_excise_tax.action_excise_register
 #: model:ir.model,name:custom_excise_tax.model_excise_register
 #: model:ir.model.fields,field_description:custom_excise_tax.field_stock_move__excise_register_id
+#: model:ir.model.fields,field_description:custom_excise_tax.field_stock_picking__excise_register_id
 #: model:ir.ui.menu,name:custom_excise_tax.menu_excise_register
 #: model_terms:ir.ui.view,arch_db:custom_excise_tax.view_excise_register_form
+#: model_terms:ir.ui.view,arch_db:custom_excise_tax.view_stock_picking_form_custom
 msgid "Excise Register"
 msgstr "Accijnsregister"
 
@@ -253,6 +271,22 @@ msgstr "Accijnsregister"
 #: model_terms:ir.ui.view,arch_db:custom_excise_tax.view_excise_register_tree
 msgid "Excise Registers"
 msgstr "Accijnsregisters"
+
+#. module: custom_excise_tax
+#: model:ir.model,name:custom_excise_tax.model_excise_tax
+msgid "Excise Tax"
+msgstr "Accijns"
+
+#. module: custom_excise_tax
+#: model_terms:ir.ui.view,arch_db:custom_excise_tax.view_excise_tax_tree
+msgid "Excise Taxes"
+msgstr "Accijnzen"
+
+#. module: custom_excise_tax
+#: model:ir.model.fields,field_description:custom_excise_tax.field_product_product__excise_category
+#: model:ir.model.fields,field_description:custom_excise_tax.field_product_template__excise_category
+msgid "Excise category"
+msgstr "Accijnscategorie"
 
 #. module: custom_excise_tax
 #: model_terms:ir.ui.view,arch_db:custom_excise_tax.stock_quant_search_view_inherit
@@ -265,22 +299,29 @@ msgid "Excise tax"
 msgstr "Accijns"
 
 #. module: custom_excise_tax
+#: model:ir.actions.act_window,name:custom_excise_tax.action_excise_tax
+#: model:ir.ui.menu,name:custom_excise_tax.menu_excise_tax
+msgid "Excise taxes"
+msgstr "Accijnzen"
+
+#. module: custom_excise_tax
 #: model:ir.model.fields,field_description:custom_excise_tax.field_product_product__gn_code
 #: model:ir.model.fields,field_description:custom_excise_tax.field_product_template__gn_code
 #: model:ir.model.fields,field_description:custom_excise_tax.field_stock_move__product_gn_code
 msgid "GN Code"
-msgstr ""
+msgstr "GN Code"
 
 #. module: custom_excise_tax
 #: model:ir.model.fields,field_description:custom_excise_tax.field_excise_register__id
+#: model:ir.model.fields,field_description:custom_excise_tax.field_excise_tax__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: custom_excise_tax
 #: model:ir.model.fields.selection,name:custom_excise_tax.selection__excise_register__type__in
 #: model_terms:ir.ui.view,arch_db:custom_excise_tax.view_excise_register_filter
 msgid "In"
-msgstr ""
+msgstr "In"
 
 #. module: custom_excise_tax
 #: model_terms:ir.ui.view,arch_db:custom_excise_tax.view_excise_register_form
@@ -299,16 +340,19 @@ msgstr "Is accijnsdepot"
 
 #. module: custom_excise_tax
 #: model:ir.model.fields,field_description:custom_excise_tax.field_excise_register____last_update
+#: model:ir.model.fields,field_description:custom_excise_tax.field_excise_tax____last_update
 msgid "Last Modified on"
 msgstr "Laatst aangepast op"
 
 #. module: custom_excise_tax
 #: model:ir.model.fields,field_description:custom_excise_tax.field_excise_register__write_uid
+#: model:ir.model.fields,field_description:custom_excise_tax.field_excise_tax__write_uid
 msgid "Last Updated by"
 msgstr "Laatst gewijzigd door"
 
 #. module: custom_excise_tax
 #: model:ir.model.fields,field_description:custom_excise_tax.field_excise_register__write_date
+#: model:ir.model.fields,field_description:custom_excise_tax.field_excise_tax__write_date
 msgid "Last Updated on"
 msgstr "Laatst gewijzigd op"
 
@@ -316,6 +360,11 @@ msgstr "Laatst gewijzigd op"
 #: model:ir.model.fields,field_description:custom_excise_tax.field_excise_register__number_ead
 msgid "Number EAD"
 msgstr "EAD nummer"
+
+#. module: custom_excise_tax
+#: model:ir.model.fields,field_description:custom_excise_tax.field_stock_picking__excise_register_count
+msgid "Number of Excise Registers"
+msgstr "Aancijnsregisters"
 
 #. module: custom_excise_tax
 #: model:ir.model.fields.selection,name:custom_excise_tax.selection__product_pricelist_item__base__pricelist
@@ -329,6 +378,7 @@ msgid "Out"
 msgstr "Uit"
 
 #. module: custom_excise_tax
+#: model:ir.model.fields,field_description:custom_excise_tax.field_excise_tax__packaging_tax
 #: model:ir.model.fields,field_description:custom_excise_tax.field_product_product__packaging_tax
 #: model:ir.model.fields,field_description:custom_excise_tax.field_product_template__packaging_tax
 msgid "Packaging Tax (€/HL)"
@@ -342,7 +392,7 @@ msgstr "Prijslijstregel"
 #. module: custom_excise_tax
 #: model:ir.model,name:custom_excise_tax.model_product_template
 msgid "Product"
-msgstr ""
+msgstr "Product"
 
 #. module: custom_excise_tax
 #: model:ir.model.fields,field_description:custom_excise_tax.field_stock_move__product_default_code
@@ -355,9 +405,10 @@ msgid "Product Name"
 msgstr "Productnaam"
 
 #. module: custom_excise_tax
+#: model:ir.model,name:custom_excise_tax.model_purchase_order
 #: model:ir.model.fields,field_description:custom_excise_tax.field_excise_register__purchase_order_id
 msgid "Purchase Order"
-msgstr "Aankooporder"
+msgstr "Inkooporder"
 
 #. module: custom_excise_tax
 #: model:ir.model,name:custom_excise_tax.model_stock_quant
@@ -390,6 +441,7 @@ msgid "Sparkling Wine"
 msgstr "Schuimwijn"
 
 #. module: custom_excise_tax
+#: model:ir.model.fields,field_description:custom_excise_tax.field_excise_tax__special_excise_tax
 #: model:ir.model.fields,field_description:custom_excise_tax.field_product_product__special_excise_tax
 #: model:ir.model.fields,field_description:custom_excise_tax.field_product_template__special_excise_tax
 msgid "Special Excise Price (€/HL)"
@@ -428,11 +480,16 @@ msgstr "Verplaatsing"
 #. module: custom_excise_tax
 #: model:ir.model.fields,field_description:custom_excise_tax.field_excise_register__type
 msgid "Type"
-msgstr ""
+msgstr "Type"
+
+#. module: custom_excise_tax
+#: model_terms:ir.ui.view,arch_db:custom_excise_tax.view_product_template_inherit
+msgid "Update Cost Price"
+msgstr "Kostprijs incl. berekenen"
 
 #. module: custom_excise_tax
 #: model:ir.model.fields,field_description:custom_excise_tax.field_stock_move__product_volume
 #: model:ir.model.fields,field_description:custom_excise_tax.field_stock_quant__product_volume
 #: model_terms:ir.ui.view,arch_db:custom_excise_tax.stock_quant_tree_view_inherit
 msgid "Volume (L)"
-msgstr ""
+msgstr "Volume (L)"
