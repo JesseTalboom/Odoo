@@ -22,20 +22,47 @@ class stock_move_inherit(models.Model):
     product_volume = fields.Float(related='product_id.product_tmpl_id.volume', store=True, readonly=True, string="Volume (L)")
     product_alcohol_volume = fields.Float(related='product_id.product_tmpl_id.alcohol_volume', store=True, readonly=True, string="Alcohol Vol. (%)")
 
+    temp_standard_price = fields.Float()
+
     # Temp set standard_price to cost_price_excise_taxes_excl. After super method is called reset the value back to default
-    def _get_in_svl_vals(self, forced_quantity):
+    def _create_in_svl(self, forced_quantity=None):
+        adjusted_moves = []
+
         # Is excise product, set standard_price temp to cost_price_excise_taxes_excl
         for move in self:
-            if move.product_id.cost_price_excise_taxes_excl > 0 and move.product_id.cost_price_excise_taxes_excl != move.product_id.standard_price:
+            if (move.location_id.is_excise_depot or move.location_dest_id.is_excise_depot) and move.product_id.cost_price_excise_taxes_excl != move.product_id.standard_price:
+                move.temp_standard_price = move.product_id.standard_price
                 move.product_id.standard_price = move.product_id.cost_price_excise_taxes_excl
+                adjusted_moves.append(move)
 
         # SUPER
-        res = super(stock_move_inherit, self)._get_in_svl_vals(forced_quantity)
+        res = super(stock_move_inherit, self)._create_in_svl(forced_quantity)
 
         # Reset standard price
         for move in self:
-            if move.product_id.total_excise_taxes > 0:
-                move.product_id.product_tmpl_id.update_standard_price()
+            if move in adjusted_moves:
+                move.product_id.standard_price = move.temp_standard_price
+
+        return res
+
+    # Temp set standard_price to cost_price_excise_taxes_excl. After super method is called reset the value back to default
+    def _create_out_svl(self, forced_quantity=None):
+        adjusted_moves = []
+
+        # Is excise product, set standard_price temp to cost_price_excise_taxes_excl
+        for move in self:
+            if (move.location_id.is_excise_depot or move.location_dest_id.is_excise_depot) and move.product_id.cost_price_excise_taxes_excl != move.product_id.standard_price:
+                move.temp_standard_price = move.product_id.standard_price
+                move.product_id.standard_price = move.product_id.cost_price_excise_taxes_excl
+                adjusted_moves.append(move)
+
+        # SUPER
+        res = super(stock_move_inherit, self)._create_out_svl(forced_quantity)
+
+        # Reset standard price
+        for move in self:
+            if move in adjusted_moves:
+                move.product_id.standard_price = move.temp_standard_price
 
         return res
 

@@ -127,21 +127,3 @@ class product_template_inherit(models.Model):
     def _get_packaging_tax(self):
         return self.box_33.packaging_tax if self.box_33 else 0
 
-class product_product_inherit(models.Model):
-    _inherit = 'product.product'
-
-    # Temp set standard_price to cost_price_excise_taxes_excl. After super method is called reset the value back to default
-    def _prepare_out_svl_vals(self, quantity, company):
-        old_standard_price = self.standard_price
-
-        # Is excise product
-        if self.cost_price_excise_taxes_excl > 0 and self.cost_price_excise_taxes_excl != self.standard_price:
-            self.standard_price = self.cost_price_excise_taxes_excl
-
-        res = super(product_product_inherit, self)._prepare_out_svl_vals(quantity, company)
-
-        # Reset standard price
-        if self.standard_price != old_standard_price:
-            self.standard_price = old_standard_price
-
-        return res
