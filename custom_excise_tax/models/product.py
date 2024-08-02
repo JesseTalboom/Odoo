@@ -18,6 +18,7 @@ class product_template_inherit(models.Model):
     excise_tax = fields.Float(string='Excise Price (€/HL)', digits=(12, 4), store=True, readonly=True, compute='_calculate_taxes')
     special_excise_tax = fields.Float(string='Special Excise Price (€/HL)', digits=(12, 4), store=True, readonly=True, compute='_calculate_taxes')
     packaging_tax = fields.Float(string='Packaging Tax (€/HL)', digits=(12, 4), store=True, readonly=True, compute='_calculate_taxes')
+    total_excise_taxes = fields.Float(string='Total Excise Price (€/HL)', digits=(12, 4), store=True, readonly=True, compute='_calculate_taxes')
 
     cost_price_excise_taxes_excl = fields.Monetary(string='Cost price (excise taxes excl.)')
 
@@ -100,15 +101,13 @@ class product_template_inherit(models.Model):
                 product.special_excise_tax = 0
                 product.packaging_tax = 0
 
-            total_taxes = product.excise_tax + product.special_excise_tax + product.packaging_tax
+            product.total_excise_taxes = product.excise_tax + product.special_excise_tax + product.packaging_tax
 
-            product.cost_price_excise_taxes_excl = product.standard_price - total_taxes if product.standard_price > total_taxes else 0
+            product.cost_price_excise_taxes_excl = product.standard_price - product.total_excise_taxes if product.standard_price > product.total_excise_taxes else 0
 
     def update_standard_price(self):
         for product in self:
-            total_taxes = product.excise_tax + product.special_excise_tax + product.packaging_tax
-
-            product.standard_price = product.cost_price_excise_taxes_excl + total_taxes
+            product.standard_price = product.cost_price_excise_taxes_excl + product.total_excise_taxes
 
     def volume_in_hectoliter(self):
         return self.volume / 100
@@ -127,3 +126,22 @@ class product_template_inherit(models.Model):
 
     def _get_packaging_tax(self):
         return self.box_33.packaging_tax if self.box_33 else 0
+
+class product_product_inherit(models.Model):
+    _inherit = 'product.product'
+
+    # Temp set standard_price to cost_price_excise_taxes_excl. After super method is called reset the value back to default
+    def _prepare_out_svl_vals(self, quantity, company):
+        old_standard_price = self.standard_price
+
+        # Is excise product
+        if self.cost_price_excise_taxes_excl > 0 and self.cost_price_excise_taxes_excl != self.standard_price:
+            self.standard_price = self.cost_price_excise_taxes_excl
+
+        res = super(product_product_inherit, self)._prepare_out_svl_vals(quantity, company)
+
+        # Reset standard price
+        if self.standard_price != old_standard_price:
+            self.standard_price = old_standard_price
+
+        return res

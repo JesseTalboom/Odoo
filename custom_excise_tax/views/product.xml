@@ -24,6 +24,7 @@
                             <field name="excise_tax"/>
                             <field name="special_excise_tax"/>
                             <field name="packaging_tax"/>
+                            <field name="total_excise_taxes"/>
                             <label for="cost_price_excise_taxes_excl"/>
                             <div class="o_row">
                                 <field name="cost_price_excise_taxes_excl" />

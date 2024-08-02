@@ -22,6 +22,23 @@ class stock_move_inherit(models.Model):
     product_volume = fields.Float(related='product_id.product_tmpl_id.volume', store=True, readonly=True, string="Volume (L)")
     product_alcohol_volume = fields.Float(related='product_id.product_tmpl_id.alcohol_volume', store=True, readonly=True, string="Alcohol Vol. (%)")
 
+    # Temp set standard_price to cost_price_excise_taxes_excl. After super method is called reset the value back to default
+    def _get_in_svl_vals(self, forced_quantity):
+        # Is excise product, set standard_price temp to cost_price_excise_taxes_excl
+        for move in self:
+            if move.product_id.cost_price_excise_taxes_excl > 0 and move.product_id.cost_price_excise_taxes_excl != move.product_id.standard_price:
+                move.product_id.standard_price = move.product_id.cost_price_excise_taxes_excl
+
+        # SUPER
+        res = super(stock_move_inherit, self)._get_in_svl_vals(forced_quantity)
+
+        # Reset standard price
+        for move in self:
+            if move.product_id.total_excise_taxes > 0:
+                move.product_id.product_tmpl_id.update_standard_price()
+
+        return res
+
 class stock_location_inherit(models.Model):
     _inherit = 'stock.location'
 
