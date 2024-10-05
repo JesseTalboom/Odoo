@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="report_invoice_document" inherit_id="account.report_invoice_document">
+        <xpath expr="//div[@class='mt-5']" position="after">
+                <div class="row">
+                        <p>Powered by
+                            <a target="_blank" href="http://www.profitdrinks.be" title="Profitdrinks">
+                                <img src="/custom_odoo_debranding/static/src/img/logo.png" alt="Profitdrinks Logo" height="100"/>
+                            </a>
+                        </p>
+                </div>
+        </xpath>
+    </template>
+
+    <template id="report_sale_document" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//div[@class='page']" position="after">
+                <div class="row">
+                        <p>Powered by
+                            <a target="_blank" href="http://www.profitdrinks.be" title="Profitdrinks">
+                                <img src="/custom_odoo_debranding/static/src/img/logo.png" alt="Profitdrinks Logo" height="100"/>
+                            </a>
+                        </p>
+                </div>
+        </xpath>
+    </template>
+
+
+</odoo>
+

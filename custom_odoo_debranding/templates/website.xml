@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template
+            inherit_id="web.brand_promotion"
+            id="brand_promotion_inherit">
+        <xpath expr="//div[hasclass('o_brand_promotion')]" position="replace">
+            <p>Powered by
+                <a target="_blank" href="http://www.profitdrinks.be" title="Profitdrinks">
+                    <img src="/custom_odoo_debranding/static/src/img/logo.png" alt="Profitdrinks Logo" height="100"/>
+                </a>
+            </p>
+        </xpath>
+    </template>
+
+</odoo>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Remove 'Powered by Odoo' on customer portal -->
+    <template id="portal_record_sidebar_inherit" inherit_id="portal.portal_record_sidebar">
+        <xpath expr="//div[hasclass('card-footer')]" position="replace">
+            <div class="card-footer small text-center text-muted border-top-0 pt-1 pb-1 d-none d-lg-block">
+                Powered by
+                <a target="_blank" href="http://www.profitdrinks.be" title="Profitdrinks">
+                    <img src="/custom_odoo_debranding/static/src/img/logo.png" alt="Profitdrinks Logo" height="100"/>
+                </a>
+            </div>
+        </xpath>
+    </template>
+</odoo>
