@@ -1,30 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
 
-    <template id="report_invoice_document" inherit_id="account.report_invoice_document">
-        <xpath expr="//div[@class='mt-5']" position="after">
-                <div class="row">
+     <template id="external_layout_standard_profitdrinks" inherit_id="web.external_layout_standard" >
+        <xpath expr="//div[@t-field='company.report_footer']" position="after">
+            <div>
                         <p>Powered by
                             <a target="_blank" href="http://www.profitdrinks.be" title="Profitdrinks">
-                                <img src="/custom_odoo_debranding/static/src/img/logo.png" alt="Profitdrinks Logo" height="100"/>
+                                <img src="/custom_odoo_debranding/static/src/img/logo.png" alt="Profitdrinks Logo" height="50"/>
                             </a>
+                            software
                         </p>
-                </div>
+            </div>
         </xpath>
     </template>
-
-    <template id="report_sale_document" inherit_id="sale.report_saleorder_document">
-        <xpath expr="//div[@class='page']" position="after">
-                <div class="row">
-                        <p>Powered by
-                            <a target="_blank" href="http://www.profitdrinks.be" title="Profitdrinks">
-                                <img src="/custom_odoo_debranding/static/src/img/logo.png" alt="Profitdrinks Logo" height="100"/>
-                            </a>
-                        </p>
-                </div>
-        </xpath>
-    </template>
-
 
 </odoo>
 
