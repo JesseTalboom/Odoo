@@ -1,18 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
 
-     <template id="external_layout_standard_profitdrinks" inherit_id="web.external_layout_standard" >
-        <xpath expr="//div[@t-field='company.report_footer']" position="after">
-            <div>
-                        <p>Powered by
+     <template id="external_layout_standard_profitdrinks" inherit_id="web.external_layout_standard">
+        <xpath expr="//ul[@class='list-inline mb4']" position="replace">
+            <ul class="list-inline mb0">
+                    <div t-field="company.report_footer"/>
+                    <p>Powered by
                             <a target="_blank" href="http://www.profitdrinks.be" title="Profitdrinks">
                                 <img src="/custom_odoo_debranding/static/src/img/logo.png" alt="Profitdrinks Logo" height="50"/>
                             </a>
                             software
-                        </p>
-            </div>
+                    </p>
+            </ul>
         </xpath>
     </template>
+
+     <template id="external_layout_striped_profitdrinks" inherit_id="web.external_layout_striped">
+        <xpath expr="//div[@t-field='company.report_footer']" position="after">
+            <p>Powered by
+                            <a target="_blank" href="http://www.profitdrinks.be" title="Profitdrinks">
+                                <img src="/custom_odoo_debranding/static/src/img/logo.png" alt="Profitdrinks Logo" height="50"/>
+                            </a>
+                            software
+            </p>
+        </xpath>
+    </template>
+
+     <template id="external_layout_bold_profitdrinks" inherit_id="web.external_layout_bold">
+        <xpath expr="//span[@t-field='company.report_footer']" position="after">
+            <p>Powered by
+                            <a target="_blank" href="http://www.profitdrinks.be" title="Profitdrinks">
+                                <img src="/custom_odoo_debranding/static/src/img/logo.png" alt="Profitdrinks Logo" height="50"/>
+                            </a>
+                            software
+            </p>
+        </xpath>
+    </template>
+
+     <template id="external_layout_boxed_profitdrinks" inherit_id="web.external_layout_boxed">
+        <xpath expr="//div[@t-field='company.report_footer']" position="after">
+            <p>Powered by
+                            <a target="_blank" href="http://www.profitdrinks.be" title="Profitdrinks">
+                                <img src="/custom_odoo_debranding/static/src/img/logo.png" alt="Profitdrinks Logo" height="50"/>
+                            </a>
+                            software
+            </p>
+        </xpath>
+    </template>
+
 
 </odoo>
 
